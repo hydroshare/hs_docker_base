@@ -25,6 +25,7 @@ RUN python setup.py install
 WORKDIR /home/docker
 RUN wget https://bootstrap.pypa.io/get-pip.py
 RUN python get-pip.py
+RUN pip install numexpr==2.4
 RUN pip install -r requirements.txt
 RUN npm install carto
 
