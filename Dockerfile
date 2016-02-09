@@ -23,9 +23,10 @@ ADD . /home/docker
 WORKDIR /home/docker/pysqlite-2.6.3/
 RUN python setup.py install
 WORKDIR /home/docker
+RUN pip install numexpr==2.4
 RUN wget https://bootstrap.pypa.io/get-pip.py
 RUN python get-pip.py
-RUN pip install numexpr==2.4
+RUN pip install -U distribute
 RUN pip install -r requirements.txt
 RUN npm install carto
 
