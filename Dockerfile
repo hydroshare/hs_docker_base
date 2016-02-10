@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     ssh git libfreetype6 libfreetype6-dev libxml2-dev libxslt-dev libprotobuf-dev \
     python2.7-gdal gdal-bin libgdal-dev gdal-contrib python-pillow protobuf-compiler \
     libtokyocabinet-dev tokyocabinet-bin libreadline-dev ncurses-dev \
-    docker.io curl libssl0.9.8 libfuse2 \
+    docker.io curl libssl0.9.8 libfuse2 fuse \
     nco netcdf-bin
 
 # Add docker user
@@ -22,10 +22,16 @@ RUN echo docker:docker | chpasswd
 ADD . /home/docker
 WORKDIR /home/docker/pysqlite-2.6.3/
 RUN python setup.py install
-RUN pip install numexpr==2.4
 WORKDIR /home/docker
+RUN pip install numexpr==2.4
+RUN wget https://bootstrap.pypa.io/get-pip.py
+RUN python get-pip.py
+RUN pip install -U distribute
 RUN pip install -r requirements.txt
 RUN npm install carto
+
+# Configure FUSE to allow other user
+RUN echo "user_allow_other" > /etc/fuse.conf
 
 # Install iRODS 4.1.5 packages
 RUN curl ftp://ftp.renci.org/pub/irods/releases/4.1.5/ubuntu14/irods-runtime-4.1.5-ubuntu14-x86_64.deb -o irods-runtime.deb
