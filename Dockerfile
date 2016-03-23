@@ -89,7 +89,6 @@ RUN pip install \
     mapnik \
     docker-py \
     pandas \
-    Shapely \
     matplotlib \
     geojson \
     paramiko
@@ -97,13 +96,16 @@ RUN pip install \
 RUN pip install \
     GDAL==1.10.0 --global-option=build_ext --global-option="-I/usr/include/gdal"
 
+RUN GEOS_CONFIG=/usr/bin/geos-config pip install shapely
+
 RUN pip install \
     suds-jurko \
     OWSLib \
     -e git+https://github.com/iPlantCollaborativeOpenSource/python-irodsclient.git@dcd234c166c06bdfc40fa2ef135c2511e0a4e7ac#egg=python_irodsclient
 
 RUN pip install \
-    mock
+    mock \
+    gunicorn
 
 ## Install base packages and pre-reqs for HydroShare
 #USER root
