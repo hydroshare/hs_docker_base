@@ -102,6 +102,9 @@ RUN pip install \
     OWSLib \
     -e git+https://github.com/iPlantCollaborativeOpenSource/python-irodsclient.git@dcd234c166c06bdfc40fa2ef135c2511e0a4e7ac#egg=python_irodsclient
 
+RUN pip install \
+    mock
+
 ## Install base packages and pre-reqs for HydroShare
 #USER root
 #RUN apt-get update && apt-get install -y \
