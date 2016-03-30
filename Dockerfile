@@ -27,6 +27,9 @@ RUN pip install numexpr==2.4
 RUN wget https://bootstrap.pypa.io/get-pip.py
 RUN python get-pip.py
 RUN pip install -U distribute
+# Django 1.8.9, Mezzanine 4.1.0
+RUN pip install Django==1.8.9
+RUN pip install --no-deps Mezzanine==4.1.0
 RUN pip install -r requirements.txt
 RUN npm install carto
 
