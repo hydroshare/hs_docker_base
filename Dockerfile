@@ -56,7 +56,7 @@ RUN curl ftp://ftp.renci.org/pub/irods/releases/4.1.5/ubuntu14/irods-runtime-4.1
 
 # Install pip based packages (due to dependencies some packages need to come first)
 RUN pip install --upgrade pip
-RUN pip install Django==1.8.11
+RUN pip install Django==1.8.12
 RUN pip install --no-deps Mezzanine==4.1.0
 RUN pip install numpy==1.10.4
 RUN pip install GDAL==1.10.0 --global-option=build_ext --global-option="-I/usr/include/gdal"
