@@ -19,8 +19,8 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libgdal-dev \
     libgdal1h \
-    postgresql \
-    postgresql-client \
+    postgresql-9.4 \
+    postgresql-client-9.4 \
     git \
     openssh-client \
     openssh-server
