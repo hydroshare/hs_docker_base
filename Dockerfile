@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y \
     postgresql-9.4 \
     postgresql-client-9.4 \
     git \
+    rsync \
     openssh-client \
     openssh-server
 
