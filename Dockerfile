@@ -118,6 +118,12 @@ RUN pip install \
     suds-jurko==0.6 \
     tzlocal==1.2.2
 
+# Upgrade mezzanine using source from Github
+WORKDIR /usr/src
+RUN git clone https://github.com/stephenmcd/mezzanine.git
+WORKDIR /usr/src/mezzanine
+RUN python setup.py install
+
 # Cleanup
 RUN apt-get clean
-RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/src/mezzanine
