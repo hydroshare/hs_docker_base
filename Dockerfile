@@ -1,68 +1,123 @@
-FROM ubuntu:trusty
+FROM python:2.7.11
 MAINTAINER Michael J. Stealey <stealey@renci.org>
 
-# Install base packages and pre-reqs for HydroShare
-USER root
 RUN apt-get update && apt-get install -y \
-    python2.7-mapnik python2.7-scipy python2.7-numpy python2.7-psycopg2 cython python2.7-pysqlite2 \
-    nodejs npm python-virtualenv \
-    postgresql-9.3 postgresql-client-common postgresql-common postgresql-client-9.3 redis-tools \
-    sqlite3 sqlite3-pcre libspatialite-dev libspatialite5 spatialite-bin \
-    ssh git libfreetype6 libfreetype6-dev libxml2-dev libxslt-dev libprotobuf-dev \
-    python2.7-gdal gdal-bin libgdal-dev gdal-contrib python-pillow protobuf-compiler \
-    libtokyocabinet-dev tokyocabinet-bin libreadline-dev ncurses-dev \
-    docker.io curl libssl0.9.8 libfuse2 fuse \
-    nco netcdf-bin
+    apt-transport-https \
+    ca-certificates
+RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+COPY docker.list /etc/apt/sources.list.d/
 
-# Add docker user
-RUN useradd -m docker -g docker
-RUN echo docker:docker | chpasswd
+RUN apt-get update && apt-get install -y \
+    docker-engine \
+    sudo \
+    libfuse2 \
+    libjpeg62-turbo \
+    libjpeg62-turbo-dev \
+    binutils \
+    libproj-dev \
+    gdal-bin \
+    build-essential \
+    libgdal-dev \
+    libgdal1h \
+    postgresql-9.4 \
+    postgresql-client-9.4 \
+    git \
+    rsync \
+    openssh-client \
+    openssh-server
 
-# Build add-ons and pip install requirements.txt
-ADD . /home/docker
-WORKDIR /home/docker/pysqlite-2.6.3/
-RUN python setup.py install
-WORKDIR /home/docker
-RUN pip install numexpr==2.4
-RUN wget https://bootstrap.pypa.io/get-pip.py
-RUN python get-pip.py
-RUN pip install -U distribute
-# Django 1.8.9, Mezzanine 4.1.0
-RUN pip install Django==1.8.9
-RUN pip install --no-deps Mezzanine==4.1.0
-RUN pip install -r requirements.txt
-RUN npm install carto
+# export statements
+RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal \
+    && export C_INCLUDE_PATH=/usr/include/gdal \
+    && export GEOS_CONFIG=/usr/bin/geos-config
 
-# Configure FUSE to allow other user
-RUN echo "user_allow_other" > /etc/fuse.conf
+# Install SSH for remote PyCharm debugging
+RUN mkdir /var/run/sshd
+RUN echo 'root:docker' | chpasswd
+RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+
+# Add docker user for use with SSH debugging
+RUN useradd -d /home/docker -g docker docker \
+    && echo 'docker:docker' | chpasswd
+
+WORKDIR /usr/src/
 
 # Install iRODS 4.1.5 packages
-RUN curl ftp://ftp.renci.org/pub/irods/releases/4.1.5/ubuntu14/irods-runtime-4.1.5-ubuntu14-x86_64.deb -o irods-runtime.deb
-RUN curl ftp://ftp.renci.org/pub/irods/releases/4.1.5/ubuntu14/irods-icommands-4.1.5-ubuntu14-x86_64.deb -o irods-icommands.deb
-RUN sudo dpkg -i irods-runtime.deb irods-icommands.deb
-RUN sudo apt-get -f install
-RUN rm irods-runtime.deb irods-icommands.deb
+RUN curl ftp://ftp.renci.org/pub/irods/releases/4.1.5/ubuntu14/irods-runtime-4.1.5-ubuntu14-x86_64.deb -o irods-runtime.deb \
+    && curl ftp://ftp.renci.org/pub/irods/releases/4.1.5/ubuntu14/irods-icommands-4.1.5-ubuntu14-x86_64.deb -o irods-icommands.deb \
+    && sudo dpkg -i irods-runtime.deb irods-icommands.deb \
+    && sudo apt-get -f install \
+    && rm irods-runtime.deb irods-icommands.deb
 
-# Install netcdf4 python
-RUN curl -O https://pypi.python.org/packages/source/n/netCDF4/netCDF4-1.1.1.tar.gz
-RUN tar -xvzf netCDF4-1.1.1.tar.gz
-WORKDIR /home/docker/netCDF4-1.1.1
-RUN python setup.py install
-WORKDIR /home/docker
-RUN rm netCDF4-1.1.1.tar.gz
+# Install pip based packages (due to dependencies some packages need to come first)
+RUN pip install --upgrade pip
+RUN pip install Django==1.8.12
+RUN pip install --no-deps Mezzanine==4.1.0
+RUN pip install numpy==1.10.4
+RUN pip install GDAL==1.10.0 --global-option=build_ext --global-option="-I/usr/include/gdal"
+RUN pip install \
+    arrow==0.7.0 \
+    bagit==1.5.4 \
+    beautifulsoup4==4.4.1 \
+    bleach==1.4.2 \
+    celery==3.1.23 \
+    chardet==2.3.0 \
+    coverage==4.0.3 \
+    django-autocomplete-light==2.0.9 \
+    django-compressor==2.0 \
+    django-contrib-comments==1.6.2 \
+    django-cors-headers==1.1.0 \
+    django-crispy-forms==1.6.0 \
+    django-debug-toolbar==1.4 \
+    django-haystack==2.4.1 \
+    django-inplaceedit==1.4.1 \
+    django-jsonfield==0.9.19 \
+    django-modeltranslation==0.11 \
+    django-nose==1.4.3 \
+    django-oauth-toolkit==0.10.0 \
+    django-timedeltafield==0.7.10 \
+    django-widget-tweaks==1.4.1 \
+    djangorestframework==3.3.3 \
+    docker-py==1.7.2 \
+    filebrowser-safe==0.4.3 \
+    future==0.15.2 \
+    geojson==1.3.2 \
+    google.foresite-toolkit==1.3 \
+    grappelli-safe==0.4.2 \
+    gunicorn==19.4.5 \
+    lxml==3.6.0 \
+    mapnik==0.1 \
+    matplotlib==1.5.1 \
+    mock==1.3.0 \
+    netCDF4==1.2.3.1 \
+    oauthlib==1.0.3 \
+    OWSLib==0.10.3 \
+    pandas==0.18.0 \
+    paramiko==1.16.0 \
+    pep8==1.7.0 \
+    Pillow==3.1.1 \
+    psycopg2==2.6.1 \
+    pyflakes==1.1.0 \
+    pylint==1.5.5 \
+    pyproj==1.9.5.1 \
+    pysolr==3.4.0 \
+    pysqlite==2.8.1 \
+    -e git+https://github.com/iPlantCollaborativeOpenSource/python-irodsclient.git@dcd234c166c06bdfc40fa2ef135c2511e0a4e7ac#egg=python_irodsclient \
+    pytz==2016.3 \
+    redis==2.10.5 \
+    requests==2.9.1 \
+    requests-oauthlib==0.6.1 \
+    sh==1.11 \
+    Shapely==1.5.13 \
+    suds-jurko==0.6 \
+    tzlocal==1.2.2
 
-# Add the hydroshare directory
-ADD . /home/docker/hydroshare
-RUN chown -R docker:docker /home/docker
-WORKDIR /home/docker/hydroshare
-
-# Configure and Cleanup
-RUN rm -rf /tmp/pip-build-root
-RUN mkdir -p /var/run/sshd
-RUN echo root:docker | chpasswd
-RUN sed "s/without-password/yes/g" /etc/ssh/sshd_config > /etc/ssh/sshd_config2
-RUN sed "s/UsePAM yes/UsePAM no/g" /etc/ssh/sshd_config2 > /etc/ssh/sshd_config
-RUN mkdir -p /home/docker/hydroshare/static/media/.cache
-RUN chown -R docker:docker /home/docker
-RUN mkdir -p /tmp
-RUN chmod 777 /tmp
+# Cleanup
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
