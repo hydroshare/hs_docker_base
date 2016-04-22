@@ -24,7 +24,8 @@ RUN apt-get update && apt-get install -y \
     git \
     rsync \
     openssh-client \
-    openssh-server
+    openssh-server \
+    netcdf-bin
 
 # export statements
 RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal \
