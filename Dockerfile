@@ -96,7 +96,6 @@ RUN pip install \
     mapnik==0.1 \
     matplotlib==1.5.1 \
     mock==1.3.0 \
-    netCDF4==1.2.3.1 \
     oauthlib==1.0.3 \
     OWSLib==0.10.3 \
     pandas==0.18.0 \
@@ -118,6 +117,10 @@ RUN pip install \
     Shapely==1.5.13 \
     suds-jurko==0.6 \
     tzlocal==1.2.2
+
+RUN USE_SETUPCFG=0 \
+    HDF5_INCDIR=/usr/include/hdf5/serial \
+    pip install netCDF4==1.2.4
 
 # Cleanup
 RUN apt-get clean
