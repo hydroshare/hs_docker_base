@@ -24,7 +24,8 @@ RUN apt-get update && apt-get install -y \
     git \
     rsync \
     openssh-client \
-    openssh-server
+    openssh-server \
+    netcdf-bin
 
 # export statements
 RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal \
@@ -49,8 +50,8 @@ RUN useradd -d /home/docker -g docker docker \
 WORKDIR /usr/src/
 
 # Install iRODS 4.1.5 packages
-RUN curl ftp://ftp.renci.org/pub/irods/releases/4.1.5/ubuntu14/irods-runtime-4.1.5-ubuntu14-x86_64.deb -o irods-runtime.deb \
-    && curl ftp://ftp.renci.org/pub/irods/releases/4.1.5/ubuntu14/irods-icommands-4.1.5-ubuntu14-x86_64.deb -o irods-icommands.deb \
+RUN curl ftp://ftp.renci.org/pub/irods/releases/4.1.8/ubuntu14/irods-runtime-4.1.8-ubuntu14-x86_64.deb -o irods-runtime.deb \
+    && curl ftp://ftp.renci.org/pub/irods/releases/4.1.8/ubuntu14/irods-icommands-4.1.8-ubuntu14-x86_64.deb -o irods-icommands.deb \
     && sudo dpkg -i irods-runtime.deb irods-icommands.deb \
     && sudo apt-get -f install \
     && rm irods-runtime.deb irods-icommands.deb
@@ -95,7 +96,6 @@ RUN pip install \
     mapnik==0.1 \
     matplotlib==1.5.1 \
     mock==1.3.0 \
-    netCDF4==1.2.3.1 \
     oauthlib==1.0.3 \
     OWSLib==0.10.3 \
     pandas==0.18.0 \
@@ -117,6 +117,10 @@ RUN pip install \
     Shapely==1.5.13 \
     suds-jurko==0.6 \
     tzlocal==1.2.2
+
+RUN USE_SETUPCFG=0 \
+    HDF5_INCDIR=/usr/include/hdf5/serial \
+    pip install netCDF4==1.2.4
 
 # Cleanup
 RUN apt-get clean
