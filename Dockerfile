@@ -50,8 +50,8 @@ RUN useradd -d /home/docker -g docker docker \
 WORKDIR /usr/src/
 
 # Install iRODS 4.1.5 packages
-RUN curl ftp://ftp.renci.org/pub/irods/releases/4.1.5/ubuntu14/irods-runtime-4.1.5-ubuntu14-x86_64.deb -o irods-runtime.deb \
-    && curl ftp://ftp.renci.org/pub/irods/releases/4.1.5/ubuntu14/irods-icommands-4.1.5-ubuntu14-x86_64.deb -o irods-icommands.deb \
+RUN curl ftp://ftp.renci.org/pub/irods/releases/4.1.8/ubuntu14/irods-runtime-4.1.8-ubuntu14-x86_64.deb -o irods-runtime.deb \
+    && curl ftp://ftp.renci.org/pub/irods/releases/4.1.8/ubuntu14/irods-icommands-4.1.8-ubuntu14-x86_64.deb -o irods-icommands.deb \
     && sudo dpkg -i irods-runtime.deb irods-icommands.deb \
     && sudo apt-get -f install \
     && rm irods-runtime.deb irods-icommands.deb
