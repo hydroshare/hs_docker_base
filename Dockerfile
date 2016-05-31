@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
 RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 COPY docker.list /etc/apt/sources.list.d/
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install --fix-missing -y \
     docker-engine \
     sudo \
     libfuse2 \
@@ -25,7 +25,8 @@ RUN apt-get update && apt-get install -y \
     rsync \
     openssh-client \
     openssh-server \
-    netcdf-bin
+    netcdf-bin \
+&& rm -rf /var/lib/apt/lists/*
 
 # export statements
 RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal \
