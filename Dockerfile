@@ -64,6 +64,8 @@ RUN pip install numpy==1.10.4
 RUN pip install GDAL==1.10.0 --global-option=build_ext --global-option="-I/usr/include/gdal"
 RUN pip install \
     arrow==0.7.0 \
+    autoflake==0.6.6 \
+    autopep8==1.2.2 \
     bagit==1.5.4 \
     beautifulsoup4==4.4.1 \
     bleach==1.4.2 \
@@ -87,6 +89,7 @@ RUN pip install \
     djangorestframework==3.3.3 \
     docker-py==1.7.2 \
     filebrowser-safe==0.4.3 \
+    flake8==2.5.4 \
     future==0.15.2 \
     geojson==1.3.2 \
     google.foresite-toolkit==1.3 \
