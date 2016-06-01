@@ -73,6 +73,8 @@ RUN pip install \
     celery==3.1.23 \
     chardet==2.3.0 \
     coverage==4.0.3 \
+    defusedexpat==0.4 \
+    defusedxml==0.4.1 \
     django-autocomplete-light==2.0.9 \
     django-compressor==2.0 \
     django-contrib-comments==1.6.2 \
