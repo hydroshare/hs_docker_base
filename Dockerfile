@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
 RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 COPY docker.list /etc/apt/sources.list.d/
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install --fix-missing -y \
     docker-engine \
     sudo \
     libfuse2 \
@@ -25,7 +25,8 @@ RUN apt-get update && apt-get install -y \
     rsync \
     openssh-client \
     openssh-server \
-    netcdf-bin
+    netcdf-bin \
+&& rm -rf /var/lib/apt/lists/*
 
 # export statements
 RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal \
@@ -64,12 +65,16 @@ RUN pip install numpy==1.10.4
 RUN pip install GDAL==1.10.0 --global-option=build_ext --global-option="-I/usr/include/gdal"
 RUN pip install \
     arrow==0.7.0 \
+    autoflake==0.6.6 \
+    autopep8==1.2.2 \
     bagit==1.5.4 \
     beautifulsoup4==4.4.1 \
     bleach==1.4.2 \
     celery==3.1.23 \
     chardet==2.3.0 \
     coverage==4.0.3 \
+    defusedexpat==0.4 \
+    defusedxml==0.4.1 \
     django-autocomplete-light==2.0.9 \
     django-compressor==2.0 \
     django-contrib-comments==1.6.2 \
@@ -87,6 +92,7 @@ RUN pip install \
     djangorestframework==3.3.3 \
     docker-py==1.7.2 \
     filebrowser-safe==0.4.3 \
+    flake8==2.5.4 \
     future==0.15.2 \
     geojson==1.3.2 \
     google.foresite-toolkit==1.3 \
