@@ -82,6 +82,7 @@ RUN pip install \
     django-crispy-forms==1.6.0 \
     django-debug-toolbar==1.4 \
     django-haystack==2.4.1 \
+    django-heartbeat==2.0.2 \
     django-inplaceedit==1.4.1 \
     django-jsonfield==0.9.19 \
     django-modeltranslation==0.11 \
