@@ -28,6 +28,7 @@ RUN apt-get update && apt-get install --fix-missing -y \
     openssh-client \
     openssh-server \
     netcdf-bin \
+    supervisor \
 && rm -rf /var/lib/apt/lists/*
 
 # export statements
@@ -52,7 +53,7 @@ RUN useradd -d /home/docker -g docker docker \
 
 WORKDIR /usr/src/
 
-# Install iRODS 4.1.5 packages
+# Install iRODS 4.1.8 packages
 RUN curl ftp://ftp.renci.org/pub/irods/releases/4.1.8/ubuntu14/irods-runtime-4.1.8-ubuntu14-x86_64.deb -o irods-runtime.deb \
     && curl ftp://ftp.renci.org/pub/irods/releases/4.1.8/ubuntu14/irods-icommands-4.1.8-ubuntu14-x86_64.deb -o irods-icommands.deb \
     && sudo dpkg -i irods-runtime.deb irods-icommands.deb \
@@ -97,9 +98,10 @@ RUN pip install \
     flake8==2.5.4 \
     future==0.15.2 \
     geojson==1.3.2 \
+    gevent==1.1.2 \
     google.foresite-toolkit==1.3 \
     grappelli-safe==0.4.2 \
-    gunicorn==19.4.5 \
+    gunicorn==19.6.0 \
     lxml==3.6.0 \
     mapnik==0.1 \
     matplotlib==1.5.1 \
