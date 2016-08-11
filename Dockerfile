@@ -36,21 +36,6 @@ RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal \
     && export C_INCLUDE_PATH=/usr/include/gdal \
     && export GEOS_CONFIG=/usr/bin/geos-config
 
-# Install SSH for remote PyCharm debugging
-RUN mkdir /var/run/sshd
-RUN echo 'root:docker' | chpasswd
-RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-
-# SSH login fix. Otherwise user is kicked off after login
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-
-ENV NOTVISIBLE "in users profile"
-RUN echo "export VISIBLE=now" >> /etc/profile
-
-# Add docker user for use with SSH debugging
-RUN useradd -d /home/docker -g docker docker \
-    && echo 'docker:docker' | chpasswd
-
 WORKDIR /usr/src/
 
 # Install iRODS 4.1.8 packages
@@ -143,6 +128,21 @@ RUN ./configure --with-python --with-geos=yes \
     && make \
     && sudo make install \
     && sudo ldconfig
+
+# Install SSH for remote PyCharm debugging
+RUN mkdir /var/run/sshd
+RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+
+# Explicitly set user/group IDs for hydroshare service account
+RUN groupadd --system storage-hydro --gid=10000 \
+    && useradd --system -g storage-hydro --uid=10000 --shell /bin/bash --home /hydroshare hydro-service
+RUN echo 'hydro-service:docker' | chpasswd
 
 # Cleanup
 WORKDIR /
