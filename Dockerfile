@@ -1,6 +1,8 @@
 FROM python:2.7.11
 MAINTAINER Michael J. Stealey <stealey@renci.org>
 
+ENV PY_SAX_PARSER=hs_core.xmlparser
+
 RUN apt-get update && apt-get install -y \
     apt-transport-https \
     ca-certificates
@@ -26,6 +28,7 @@ RUN apt-get update && apt-get install --fix-missing -y \
     openssh-client \
     openssh-server \
     netcdf-bin \
+    supervisor \
 && rm -rf /var/lib/apt/lists/*
 
 # export statements
@@ -50,7 +53,7 @@ RUN useradd -d /home/docker -g docker docker \
 
 WORKDIR /usr/src/
 
-# Install iRODS 4.1.5 packages
+# Install iRODS 4.1.8 packages
 RUN curl ftp://ftp.renci.org/pub/irods/releases/4.1.8/ubuntu14/irods-runtime-4.1.8-ubuntu14-x86_64.deb -o irods-runtime.deb \
     && curl ftp://ftp.renci.org/pub/irods/releases/4.1.8/ubuntu14/irods-icommands-4.1.8-ubuntu14-x86_64.deb -o irods-icommands.deb \
     && sudo dpkg -i irods-runtime.deb irods-icommands.deb \
@@ -59,17 +62,16 @@ RUN curl ftp://ftp.renci.org/pub/irods/releases/4.1.8/ubuntu14/irods-runtime-4.1
 
 # Install pip based packages (due to dependencies some packages need to come first)
 RUN pip install --upgrade pip
-RUN pip install Django==1.8.12
+RUN pip install Django==1.8.14
 RUN pip install --no-deps Mezzanine==4.1.0
 RUN pip install numpy==1.10.4
-RUN pip install GDAL==1.10.0 --global-option=build_ext --global-option="-I/usr/include/gdal"
 RUN pip install \
     arrow==0.7.0 \
     autoflake==0.6.6 \
     autopep8==1.2.2 \
     bagit==1.5.4 \
     beautifulsoup4==4.4.1 \
-    bleach==1.4.2 \
+    bleach==1.4.3 \
     celery==3.1.23 \
     chardet==2.3.0 \
     coverage==4.0.3 \
@@ -96,9 +98,10 @@ RUN pip install \
     flake8==2.5.4 \
     future==0.15.2 \
     geojson==1.3.2 \
+    gevent==1.1.2 \
     google.foresite-toolkit==1.3 \
     grappelli-safe==0.4.2 \
-    gunicorn==19.4.5 \
+    gunicorn==19.6.0 \
     lxml==3.6.0 \
     mapnik==0.1 \
     matplotlib==1.5.1 \
@@ -110,6 +113,7 @@ RUN pip install \
     pep8==1.7.0 \
     Pillow==3.1.1 \
     psycopg2==2.6.1 \
+    pycrs==0.1.3 \
     pyflakes==1.1.0 \
     pylint==1.5.5 \
     pyproj==1.9.5.1 \
@@ -129,6 +133,18 @@ RUN USE_SETUPCFG=0 \
     HDF5_INCDIR=/usr/include/hdf5/serial \
     pip install netCDF4==1.2.4
 
+# Install GDAL 2.1.0 from source
+RUN wget http://download.osgeo.org/gdal/2.1.0/gdal-2.1.0.tar.gz \
+    && tar -xzf gdal-2.1.0.tar.gz \
+    && rm gdal-2.1.0.tar.gz
+
+WORKDIR /usr/src/gdal-2.1.0
+RUN ./configure --with-python --with-geos=yes \
+    && make \
+    && sudo make install \
+    && sudo ldconfig
+
 # Cleanup
+WORKDIR /
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
