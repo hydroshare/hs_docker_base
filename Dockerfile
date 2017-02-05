@@ -86,5 +86,4 @@ ENV DEBIAN_FRONTEND teletype
 
 # Cleanup
 RUN apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
