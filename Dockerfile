@@ -4,6 +4,8 @@ MAINTAINER Michael J. Stealey <stealey@renci.org>
 ENV DEBIAN_FRONTEND noninteractive
 ENV PY_SAX_PARSER=hs_core.xmlparser
 
+RUN pip install --upgrade pip
+
 RUN apt-get update && apt-get install -y \
     apt-transport-https \
     ca-certificates \
