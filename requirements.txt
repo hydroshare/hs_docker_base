@@ -17,7 +17,7 @@ defusedexpat==0.4
 defusedxml==0.4.1
 Django==1.11
 django-appconf==1.0.2
-django-autocomplete-light==2.3.3
+django-autocomplete-light==3.2.10
 django-braces==1.9.0
 django-compressor==2.2
 django-contrib-comments==1.8.0
