@@ -28,7 +28,7 @@ django-appconf==1.0.2
 django-autocomplete-light==2.3.3
 django-braces==1.9.0
 django-compressor==2.2
-django-contrib-comments==1.8.0
+django-contrib-comments==1.9.0
 django-cors-headers==2.4.0
 django-crispy-forms==1.7.2
 django-debug-toolbar==1.9.1
@@ -84,7 +84,7 @@ mapnik==0.1
 MarkupSafe==1.0
 matplotlib==1.5.1
 mccabe==0.4.0
-Mezzanine==4.3.0
+Mezzanine==4.3.1
 mock==1.3.0
 nameparser==0.5.7
 netCDF4==1.2.4
