@@ -79,6 +79,7 @@ kombu==3.0.35
 lazy-object-proxy==1.2.2
 lxml==3.7.3
 mapnik==0.1
+markdown==3.0.1
 MarkupSafe==1.0
 matplotlib==1.5.1
 mccabe==0.6.1
