@@ -23,7 +23,7 @@ cryptography==2.3
 cycler==0.10.0
 defusedexpat==0.4
 defusedxml==0.4.1
-Django==1.11.15
+Django==1.11.18
 django-appconf==1.0.2
 django-autocomplete-light==2.3.3
 django-braces==1.9.0
@@ -117,7 +117,7 @@ pysolr==3.4.0
 pysqlite==2.8.1
 python-crfsuite==0.9.6
 python-dateutil==2.5.3
--e git+https://github.com/iPlantCollaborativeOpenSource/python-irodsclient.git@dcd234c166c06bdfc40fa2ef135c2511e0a4e7ac#egg=python_irodsclient
+python-irodsclient==0.8.1 
 pytz==2016.3
 PyYAML==3.13
 rcssmin==1.0.6
