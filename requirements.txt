@@ -115,7 +115,7 @@ pyparsing==2.1.7
 pyproj==1.9.5.1
 pysolr==3.4.0
 pysqlite==2.8.1
-pytest-django>=0.2.0, <1.0.0
+pytest-django>=3.4.7, 4.0.0
 python-crfsuite==0.9.6
 python-dateutil==2.5.3
 python-irodsclient==0.8.1 
