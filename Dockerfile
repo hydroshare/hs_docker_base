@@ -1,4 +1,4 @@
-FROM python:2.7.11
+FROM python:3.7.3
 MAINTAINER Michael J. Stealey <stealey@renci.org>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -18,6 +18,9 @@ COPY . /tmp
 RUN cp /tmp/docker.list /etc/apt/sources.list.d/ \
     && cp /tmp/requirements.txt /requirements.txt
 
+RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' \
+    && wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -
+
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     apt-utils \
     docker-engine \
@@ -29,7 +32,7 @@ RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     gdal-bin \
     build-essential \
     libgdal-dev \
-    libgdal1h \
+    libgdal20 \
     postgresql-9.4 \
     postgresql-client-9.4 \
     git \
@@ -44,12 +47,12 @@ RUN npm install -g phantomjs-prebuilt
 WORKDIR /
 
 # Install pip based packages (due to dependencies some packages need to come first)
-RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal \
-    && export C_INCLUDE_PATH=/usr/include/gdal \
-    && export GEOS_CONFIG=/usr/bin/geos-config \
-    && HDF5_INCDIR=/usr/include/hdf5/serial \
-    && pip install --upgrade pip \
-    && pip install -r requirements.txt
+RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal 
+RUN export C_INCLUDE_PATH=/usr/include/gdal 
+RUN export GEOS_CONFIG=/usr/bin/geos-config 
+RUN HDF5_INCDIR=/usr/include/hdf5/serial 
+RUN pip install --upgrade pip 
+RUN pip install -r requirements.txt
 
 # Install GDAL 2.1.0 from source
 RUN wget http://download.osgeo.org/gdal/2.1.3/gdal-2.1.3.tar.gz \
