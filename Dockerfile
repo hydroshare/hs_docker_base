@@ -4,6 +4,8 @@ MAINTAINER Michael J. Stealey <stealey@renci.org>
 ENV DEBIAN_FRONTEND noninteractive
 ENV PY_SAX_PARSER=hs_core.xmlparser
 
+RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main" > /etc/apt/sources.list
+
 RUN apt-get update && apt-get install -y \
     apt-transport-https \
     ca-certificates \
@@ -41,13 +43,6 @@ RUN npm install -g phantomjs-prebuilt
 
 WORKDIR /
 
-# Install iRODS 4.1.8 packages
-RUN curl ftp://ftp.renci.org/pub/irods/releases/4.1.8/ubuntu14/irods-runtime-4.1.8-ubuntu14-x86_64.deb -o irods-runtime.deb \
-    && curl ftp://ftp.renci.org/pub/irods/releases/4.1.8/ubuntu14/irods-icommands-4.1.8-ubuntu14-x86_64.deb -o irods-icommands.deb \
-    && sudo dpkg -i irods-runtime.deb irods-icommands.deb \
-    && sudo apt-get -f install \
-    && rm irods-runtime.deb irods-icommands.deb
-
 # Install pip based packages (due to dependencies some packages need to come first)
 RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal \
     && export C_INCLUDE_PATH=/usr/include/gdal \
@@ -67,6 +62,15 @@ RUN ./configure --with-python --with-geos=yes \
     && sudo make install \
     && sudo ldconfig
 WORKDIR /
+
+# Install iRODS v.4.2.0
+RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key add - \
+    && echo "deb [arch=amd64] https://packages.irods.org/apt/ trusty main" | \
+    sudo tee /etc/apt/sources.list.d/renci-irods.list \
+    && sudo apt-get update && sudo apt-get install -y \
+    apt-transport-https \
+    irods-runtime \
+    irods-icommands
 
 # Install SSH for remote PyCharm debugging
 RUN mkdir /var/run/sshd

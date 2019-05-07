@@ -1,7 +1,7 @@
 # hs_docker_base
 
 Base image for HydroShare project.
-Build information at Docker hub: [mjstealey/hs_docker_base](https://hub.docker.com/r/mjstealey/hs_docker_base/)
+Build information at Docker hub: [hydroshare/hs_docker_base](https://hub.docker.com/r/hydroshare/hs_docker_base/)
 
 **requires.io**
 
