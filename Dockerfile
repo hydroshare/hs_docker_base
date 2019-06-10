@@ -1,4 +1,4 @@
-FROM python:3.7.3
+FROM python:3.6-jessie
 MAINTAINER Michael J. Stealey <stealey@renci.org>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -10,8 +10,9 @@ RUN apt-get update && apt-get install -y \
     apt-transport-https \
     ca-certificates \
     sudo \
-    && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D \
-    && curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+    && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+    
+RUN curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 
 # Add docker.list and requirements.txt - using /tmp to keep hub.docker happy
 COPY . /tmp
@@ -32,7 +33,7 @@ RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     gdal-bin \
     build-essential \
     libgdal-dev \
-    libgdal20 \
+    libgdal1h \
     postgresql-9.4 \
     postgresql-client-9.4 \
     git \
@@ -54,12 +55,12 @@ RUN HDF5_INCDIR=/usr/include/hdf5/serial
 RUN pip install --upgrade pip 
 RUN pip install -r requirements.txt
 
-# Install GDAL 2.1.0 from source
-RUN wget http://download.osgeo.org/gdal/2.1.3/gdal-2.1.3.tar.gz \
-    && tar -xzf gdal-2.1.3.tar.gz \
-    && rm gdal-2.1.3.tar.gz
+# Install GDAL 2.4.1 from source
+RUN wget http://download.osgeo.org/gdal/2.4.1/gdal-2.4.1.tar.gz \
+    && tar -xzf gdal-2.4.1.tar.gz \
+    && rm gdal-2.4.1.tar.gz
 
-WORKDIR /gdal-2.1.3
+WORKDIR /gdal-2.4.1
 RUN ./configure --with-python --with-geos=yes \
     && make \
     && sudo make install \
