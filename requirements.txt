@@ -19,6 +19,7 @@ django-contrib-comments==1.9.0
 django-cors-headers==2.4.0
 django-crispy-forms==1.7.2
 django-debug-toolbar==1.9.1
+django-freshly==0.1.2
 django-haystack==2.8.1
 django-heartbeat==2.0.2
 django-ipware==2.1.0
