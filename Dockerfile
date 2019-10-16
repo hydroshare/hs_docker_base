@@ -43,6 +43,9 @@ RUN npm install -g phantomjs-prebuilt
 
 WORKDIR /
 
+#install numpy before matplotlib
+RUN pip install 'numpy==1.16.0'
+
 # Install pip based packages (due to dependencies some packages need to come first)
 RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal \
     && export C_INCLUDE_PATH=/usr/include/gdal \
