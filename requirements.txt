@@ -9,7 +9,8 @@ click==6.7
 coreapi==2.3.3
 coverage==4.0.3
 cycler==0.10.0
-#defusedexpat==0.4
+defusedexpat==0.4
+defusedxml==0.4.1
 Django==1.11.23
 django-appconf==1.0.2
 django-autocomplete-light==2.3.3
@@ -19,6 +20,7 @@ django-contrib-comments==1.9.0
 django-cors-headers==2.4.0
 django-crispy-forms==1.7.2
 django-debug-toolbar==1.9.1
+django-freshly==0.1.2
 django-haystack==2.8.1
 django-heartbeat==2.0.2
 django-ipware==2.1.0
@@ -31,16 +33,18 @@ django-security==0.9.3
 django-test-without-migrations==0.6
 django-timedeltafield==0.7.10
 django-widget-tweaks==1.4.1
-djangorestframework==3.8.2
+djangorestframework==3.9.1
 docker-py==1.7.2
 dominate==2.3.1
 DoubleMetaphone==0.1
 drf-haystack==1.8.5
 drf-yasg==1.10.0
+ecdsa==0.13.3
 enum34==1.1.6
 filebrowser-safe==0.5.0
 flake8==3.5.0
 flex==6.13.2
+flower==0.9.3
 funcsigs==1.0.2
 #functools32==3.2.3.post2
 future==0.16.0
@@ -69,7 +73,6 @@ nameparser==0.5.7
 netCDF4==1.5.1.2 
 nose==1.3.7
 nose-timer>=0.7.4,<1.0.0
-numpy==1.16.0
 oauthlib==2.1.0
 OWSLib==0.10.3
 paramiko==2.4.2
@@ -92,7 +95,8 @@ python-crfsuite==0.9.6
 python-dateutil==2.5.3
 python-irodsclient==0.8.1 
 pytz==2016.3
-PyYAML==3.13
+PyYAML==5.1
+rcssmin==1.0.6
 rdflib==4.0.1
 redis==2.10.5
 requests==2.20.0
