@@ -9,7 +9,7 @@ click==6.7
 coreapi==2.3.3
 coverage==4.0.3
 cycler==0.10.0
-defusedexpat==0.4
+#defusedexpat==0.4
 defusedxml==0.4.1
 Django==1.11.23
 django-appconf==1.0.2
