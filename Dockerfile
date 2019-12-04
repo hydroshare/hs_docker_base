@@ -80,6 +80,11 @@ RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key a
     irods-runtime \
     irods-icommands
 
+# inplaceedit in pip doesn't seem compatible with Django 1.11 yet...
+RUN pip install git+https://github.com/theromis/django-inplaceedit.git@e6fa12355defedf769a5f06edc8fc079a6e982ec
+# foresite-toolkit in pip isn't compatible with python3
+RUN pip install git+https://github.com/sblack-usu/foresite-toolkit.git#subdirectory=foresite-python/trunk
+
 # Install SSH for remote PyCharm debugging
 RUN mkdir /var/run/sshd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
