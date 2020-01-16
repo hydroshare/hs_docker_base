@@ -1,4 +1,4 @@
-FROM python:2.7.11
+FROM python:3.6-jessie
 MAINTAINER Michael J. Stealey <stealey@renci.org>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -10,13 +10,17 @@ RUN apt-get update && apt-get install -y \
     apt-transport-https \
     ca-certificates \
     sudo \
-    && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D \
-    && curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+    && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+    
+RUN curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 
 # Add docker.list and requirements.txt - using /tmp to keep hub.docker happy
 COPY . /tmp
 RUN cp /tmp/docker.list /etc/apt/sources.list.d/ \
     && cp /tmp/requirements.txt /requirements.txt
+
+RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' \
+    && wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -
 
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     apt-utils \
@@ -43,20 +47,24 @@ RUN npm install -g phantomjs-prebuilt
 
 WORKDIR /
 
+#install numpy before matplotlib
+RUN pip install 'numpy==1.16.0'
+RUN pip install git+https://github.com/sblack-usu/defusedexpat.git
+
 # Install pip based packages (due to dependencies some packages need to come first)
-RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal \
-    && export C_INCLUDE_PATH=/usr/include/gdal \
-    && export GEOS_CONFIG=/usr/bin/geos-config \
-    && HDF5_INCDIR=/usr/include/hdf5/serial \
-    && pip install --upgrade pip \
-    && pip install -r requirements.txt
+RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal 
+RUN export C_INCLUDE_PATH=/usr/include/gdal 
+RUN export GEOS_CONFIG=/usr/bin/geos-config 
+RUN HDF5_INCDIR=/usr/include/hdf5/serial 
+RUN pip install --upgrade pip 
+RUN pip install -r requirements.txt
 
-# Install GDAL 2.1.0 from source
-RUN wget http://download.osgeo.org/gdal/2.1.3/gdal-2.1.3.tar.gz \
-    && tar -xzf gdal-2.1.3.tar.gz \
-    && rm gdal-2.1.3.tar.gz
+# Install GDAL 2.4.1 from source
+RUN wget http://download.osgeo.org/gdal/2.4.1/gdal-2.4.1.tar.gz \
+    && tar -xzf gdal-2.4.1.tar.gz \
+    && rm gdal-2.4.1.tar.gz
 
-WORKDIR /gdal-2.1.3
+WORKDIR /gdal-2.4.1
 RUN ./configure --with-python --with-geos=yes \
     && make \
     && sudo make install \
@@ -71,6 +79,11 @@ RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key a
     apt-transport-https \
     irods-runtime \
     irods-icommands
+
+# inplaceedit in pip doesn't seem compatible with Django 1.11 yet...
+RUN pip install git+https://github.com/theromis/django-inplaceedit.git@e6fa12355defedf769a5f06edc8fc079a6e982ec
+# foresite-toolkit in pip isn't compatible with python3
+RUN pip install git+https://github.com/sblack-usu/foresite-toolkit.git#subdirectory=foresite-python/trunk
 
 # Install SSH for remote PyCharm debugging
 RUN mkdir /var/run/sshd
@@ -88,6 +101,8 @@ RUN groupadd --system storage-hydro --gid=10000 \
 RUN echo 'hydro-service:docker' | chpasswd
 ENV DEBIAN_FRONTEND teletype
 
+# set UTF-8 env locale
+RUN echo UTF-8/en_US.UTF-8 UTF-8 > /etc/local.gen && locale-gen
 # Cleanup
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
