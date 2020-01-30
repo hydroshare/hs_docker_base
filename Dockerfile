@@ -49,6 +49,7 @@ WORKDIR /
 
 #install numpy before matplotlib
 RUN pip install 'numpy==1.16.0'
+
 RUN pip install git+https://github.com/sblack-usu/defusedexpat.git
 
 # Install pip based packages (due to dependencies some packages need to come first)
