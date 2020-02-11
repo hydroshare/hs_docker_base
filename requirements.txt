@@ -3,7 +3,7 @@ anyjson==0.3.3
 arrow==0.7.0
 autopep8==1.2.2
 bagit==1.5.4
-celery==4.3.0
+celery==4.4.0
 cffi==1.11.5
 click==6.7
 coreapi==2.3.3
@@ -60,7 +60,7 @@ Jinja2==2.10
 jsonpointer==1.14
 jsonschema==2.6.0
 keepalive==0.5
-kombu==4.6.3
+kombu==4.6.7
 lxml==4.4.0
 #mapnik==0.1
 Markdown==3.0.1
