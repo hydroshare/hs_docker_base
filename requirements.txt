@@ -33,7 +33,7 @@ django-security==0.9.3
 django-test-without-migrations==0.6
 django-timedeltafield==0.7.10
 django-widget-tweaks==1.4.1
-djangorestframework==3.9.1
+djangorestframework==3.10.3
 docker-py==1.7.2
 dominate==2.4.0
 DoubleMetaphone==0.1
@@ -95,7 +95,7 @@ python-crfsuite==0.9.6
 python-dateutil==2.5.3
 python-irodsclient==0.8.1 
 pytz==2016.3
-PyYAML==5.1
+PyYAML==5.12
 rcssmin==1.0.6
 rdflib==4.0.1
 redis==2.10.5
