@@ -95,7 +95,7 @@ python-crfsuite==0.9.6
 python-dateutil==2.5.3
 python-irodsclient==0.8.1 
 pytz==2016.3
-PyYAML==5.12
+PyYAML==5.1.2
 rcssmin==1.0.6
 rdflib==4.0.1
 redis==2.10.5
