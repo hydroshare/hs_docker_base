@@ -33,7 +33,7 @@ django-security==0.9.3
 django-test-without-migrations==0.6
 django-timedeltafield==0.7.10
 django-widget-tweaks==1.4.1
-djangorestframework==3.10.3
+djangorestframework==3.9.1
 docker-py==1.7.2
 dominate==2.4.0
 DoubleMetaphone==0.1
