@@ -72,7 +72,7 @@ RUN ./configure --with-python --with-geos=yes \
     && sudo ldconfig
 WORKDIR /
 
-# Install iRODS v.4.2.6
+# Install iRODS
 RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key add - \
     && echo "deb [arch=amd64] https://packages.irods.org/apt/ trusty main" | \
     sudo tee /etc/apt/sources.list.d/renci-irods.list \
