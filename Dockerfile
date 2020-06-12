@@ -1,17 +1,18 @@
 FROM python:3.6-jessie
 MAINTAINER Michael J. Stealey <stealey@renci.org>
 
+
 ENV DEBIAN_FRONTEND noninteractive
 ENV PY_SAX_PARSER=hs_core.xmlparser
 
-RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main" > /etc/apt/sources.list
+RUN printf "deb http://deb.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main" > /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
     apt-transport-https \
     ca-certificates \
     sudo \
     && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-    
+
 RUN curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 
 # Add docker.list and requirements.txt - using /tmp to keep hub.docker happy
@@ -19,12 +20,14 @@ COPY . /tmp
 RUN cp /tmp/docker.list /etc/apt/sources.list.d/ \
     && cp /tmp/requirements.txt /requirements.txt
 
+RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7EA0A9C3F273FCD8
+
 RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' \
     && wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -
 
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     apt-utils \
-    docker-engine \
+    docker-ce \
     libfuse2 \
     libjpeg62-turbo \
     libjpeg62-turbo-dev \
