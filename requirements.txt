@@ -61,7 +61,7 @@ jsonpointer==1.14
 jsonschema==2.6.0
 keepalive==0.5
 kombu==4.6.7
-lxml==4.4.0
+lxml==4.6.3
 #mapnik==0.1
 Markdown==3.0.1
 MarkupSafe==1.0
