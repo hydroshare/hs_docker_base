@@ -25,7 +25,7 @@ django-debug-toolbar
 django-freshly
 django-haystack
 django-heartbeat
-# django-inplaceedit
+django-inplaceedit
 django-ipware
 django-jsonfield
 django-modeltranslation

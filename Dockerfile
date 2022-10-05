@@ -1,6 +1,4 @@
-# FROM hydroshare/hs_docker_base:release-1.13
-# https://github.com/hydroshare/hs_docker_base/blob/develop/Dockerfile
-# MAINTAINER Phuong Doan pdoan@cuahsi.org
+# TODO: push this to dockerhub
 FROM python:3 as hs_docker_base
 MAINTAINER Michael J. Stealey <stealey@renci.org>
 
@@ -62,9 +60,9 @@ RUN HDF5_INCDIR=/usr/include/hdf5/serial
 RUN pip install --upgrade pip 
 RUN pip install -r requirements.txt
 
-# TODO: not sure that we need this?
+# TODO: not sure that we need this? 
+# We install gdal-bin above with apt... but maybe we need to do this to get geos?
 # Install GDAL 3.5.2 from source
-# RUN wget http://download.osgeo.org/gdal/3.5.2/gdal-3.5.2.tar.gz \
 RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/3.5.2/gdal-3.5.2.tar.gz \
     && tar -xzf gdal-3.5.2.tar.gz \
     && rm gdal-3.5.2.tar.gz
@@ -91,10 +89,6 @@ RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key a
     irods-runtime \
     irods-icommands
 
-# TODO: move this to requirements.txt not sure that we actually need it...
-# inplaceedit in pip doesn't seem compatible with Django 1.11 yet...
-RUN pip install git+https://github.com/theromis/django-inplaceedit.git@e6fa12355defedf769a5f06edc8fc079a6e982ec
-
 # TODO: not sure if we actually need this?
 # foresite-toolkit in pip isn't compatible with python3
 RUN pip install git+https://github.com/sblack-usu/foresite-toolkit.git#subdirectory=foresite-python/trunk
@@ -120,16 +114,3 @@ RUN echo UTF-8/en_US.UTF-8 UTF-8 > /etc/local.gen; locale-gen
 # Cleanup
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# Set the locale. TODO - remove once we have a better alternative worked out
-RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
-    locale-gen
-
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-
-USER root
-WORKDIR /hydroshare
-
-CMD ["/bin/bash"]
