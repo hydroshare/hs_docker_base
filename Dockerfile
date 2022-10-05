@@ -1,7 +1,4 @@
-# TODO: push this to dockerhub
-FROM python:3 as hs_docker_base
-MAINTAINER Michael J. Stealey <stealey@renci.org>
-
+FROM python:3.9.14-bullseye
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PY_SAX_PARSER=hs_core.xmlparser
@@ -13,7 +10,6 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     sudo \
     && apt-key adv --keyserver keys.openpgp.org --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-    # apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 
 RUN curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 
@@ -38,7 +34,6 @@ RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     gdal-bin \
     build-essential \
     libgdal-dev \
-    # TODO should we include geos ?
     postgresql-9.4 \
     postgresql-client-9.4 \
     git \
@@ -60,25 +55,32 @@ RUN HDF5_INCDIR=/usr/include/hdf5/serial
 RUN pip install --upgrade pip 
 RUN pip install -r requirements.txt
 
-# TODO: not sure that we need this? 
-# We install gdal-bin above with apt... but maybe we need to do this to get geos?
-# Install GDAL 3.5.2 from source
-RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/3.5.2/gdal-3.5.2.tar.gz \
-    && tar -xzf gdal-3.5.2.tar.gz \
-    && rm gdal-3.5.2.tar.gz
+# foresite-toolkit in pip isn't compatible with python3
+RUN pip install git+https://github.com/sblack-usu/foresite-toolkit.git#subdirectory=foresite-python/trunk
 
-WORKDIR /gdal-3.5.2
-RUN ./configure --with-python --with-geos=yes \
-    && make \
-    && sudo make install \
-    && sudo ldconfig
-WORKDIR /
+RUN pip freeze > requirements.txt
+# ########################################################
+# TODO: not sure that we need to wget gdal and install here? Removing for now...
+# We install gdal-bin above with apt... but maybe we need to do this to get geos? If so, maybe we should remove it above...
+# RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/3.5.2/gdal-3.5.2.tar.gz \
+#     && tar -xzf gdal-3.5.2.tar.gz \
+#     && rm gdal-3.5.2.tar.gz
+
+# WORKDIR /gdal-3.5.2
+# RUN ./configure --with-python --with-geos=yes \
+#     && make \
+#     && sudo make install \
+#     && sudo ldconfig
+# WORKDIR /
 
 # TODO: do we need to add Python bindings for Gdal?
 # https://mothergeo-py.readthedocs.io/en/latest/development/how-to/gdal-ubuntu-pkg.html
 # RUN python -m pip install --upgrade --no-cache-dir setuptools==58.0.2
 # RUN pip install GDAL==3.2.2
 # RUN pip install GDAL==`ogrinfo --version`
+# ########################################################
+
+
 
 # Install iRODS
 RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key add - \
@@ -88,10 +90,6 @@ RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key a
     apt-transport-https \
     irods-runtime \
     irods-icommands
-
-# TODO: not sure if we actually need this?
-# foresite-toolkit in pip isn't compatible with python3
-RUN pip install git+https://github.com/sblack-usu/foresite-toolkit.git#subdirectory=foresite-python/trunk
 
 # Install SSH for remote PyCharm debugging
 RUN mkdir /var/run/sshd

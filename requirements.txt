@@ -1,6 +1,5 @@
 # TODO: pin versions for these...
 amqp
-# anyjson
 arrow
 autopep8
 bagit
@@ -11,7 +10,6 @@ click
 coreapi
 coverage
 cycler
-# defusedexpat support of https://github.com/tiran/defusedexpat stops at python 3.4
 defusedxml
 Django==3.2
 django-appconf
@@ -91,7 +89,6 @@ pyflakes
 pylint
 pyproj
 pysolr
-# pysqlite3
 pytest-cov
 pytest-django
 python-crfsuite
@@ -108,7 +105,6 @@ robot-detection
 selenium
 six
 sorl-thumbnail
-# suds-jurko
 timeago
 uritemplate
 virtualenv
