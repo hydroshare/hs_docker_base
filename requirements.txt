@@ -5,12 +5,13 @@ arrow
 autopep8
 bagit
 celery
+deepdiff
 cffi
 click
 coreapi
 coverage
 cycler
-# defusedexpat needed
+# defusedexpat support of https://github.com/tiran/defusedexpat stops at python 3.4
 defusedxml
 Django==3.2
 django-appconf
@@ -42,12 +43,10 @@ DoubleMetaphone
 drf-haystack
 drf-yasg
 ecdsa
-# enum34
 filebrowser-safe
 flake8
 flex
 flower
-# google.foresite-toolkit
 funcsigs
 future
 geojson
@@ -58,13 +57,13 @@ gunicorn
 html5lib
 inflection
 django-inplaceedit
+hsmodels
 isodate
 Jinja2
 jsonpointer
 jsonschema
-# keepalive
 kombu
-# lxml needed
+lxml
 Markdown
 MarkupSafe
 matplotlib
@@ -83,7 +82,7 @@ pbr
 pep8
 prettytable
 probablepeople
-# psycopg2 needed
+psycopg2
 ipaddress
 pyasn1
 pycodestyle
@@ -93,6 +92,7 @@ pylint
 pyproj
 pysolr
 # pysqlite3
+pytest-cov
 pytest-django
 python-crfsuite
 python-dateutil
@@ -106,20 +106,10 @@ requests
 rfc3987
 robot-detection
 selenium
-six # added
+six
+sorl-thumbnail
 # suds-jurko
 timeago
 uritemplate
 virtualenv
 xmltodict
-
-# from HS dockerfile
-# https://github.com/hydroshare/hydroshare/blob/develop/Dockerfile
-deepdiff
-# pytest-coverage
-pytest-cov
-git+https://github.com/hydroshare/hsmodels.git@0.5.3#egg=hsmodels
-sorl-thumbnail
-
-# added
-flake8
