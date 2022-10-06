@@ -1,4 +1,4 @@
-FROM python:3.6-bullseye
+FROM python:3.9-bullseye
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PY_SAX_PARSER=hs_core.xmlparser
@@ -52,8 +52,12 @@ RUN pip install 'numpy==1.16.*'
 # TODO: unsure if we need inplaceedit (pending Pabitra's work)
 # RUN pip install git+https://github.com/theromis/django-inplaceedit.git@e6fa12355defedf769a5f06edc8fc079a6e982ec
 
-# This is the only thing holding us back from python 3.9
-RUN pip install git+https://github.com/sblack-usu/defusedexpat.git
+# Removed defusedexpat python 3.9
+# Added defusedxml
+# https://docs.python.org/3.9/library/xml.html?highlight=xml#the-defusedxml-package
+# https://github.com/python/cpython/issues/82766
+# RUN pip install git+https://github.com/sblack-usu/defusedexpat.git
+# TODO: replace "lxml" imports in HS => "import defusedxml.ElementTree as etree" etc
 
 # Install pip based packages (due to dependencies some packages need to come first)
 RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal 

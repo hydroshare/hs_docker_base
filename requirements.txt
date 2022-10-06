@@ -9,7 +9,8 @@
 arrow==0.7.0
 celery==4.4.0
 deepdiff==1.7.0
-defusedexpat #included in dockerfile separately
+# defusedexpat
+defusedxml==0.7.1
 Django==3.2.15
 django-autocomplete-light==2.3.6
 django-contrib-comments==2.2.0
