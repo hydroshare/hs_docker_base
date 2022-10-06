@@ -1,4 +1,4 @@
-FROM python:3.9.14-bullseye
+FROM python:3.6-bullseye
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PY_SAX_PARSER=hs_core.xmlparser
@@ -49,6 +49,7 @@ WORKDIR /
 #install numpy before matplotlib
 RUN pip install 'numpy==1.16.*'
 
+# This is the only thing holding us back from python 3.9
 RUN pip install git+https://github.com/sblack-usu/defusedexpat.git
 
 # Install pip based packages (due to dependencies some packages need to come first)

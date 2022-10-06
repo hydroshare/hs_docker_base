@@ -1,6 +1,11 @@
 # narrowed down using https://github.com/bndr/pipreqs
-# then added INSTALLED_APPS manually
-# commented were found by pipreqs but weren't in our pip freeze from hs container
+# following 5 were recommended by pipreqs but weren't in our pip freeze from hs container
+# gdal==3.5.2
+# osgeo==0.0.1
+# osr==0.0.1
+# Pillow==9.2.0
+# recommonmark
+# then INSTALLED_APPS were added manually
 arrow==0.7.0
 celery==4.4.0
 deepdiff==1.7.0
@@ -22,7 +27,6 @@ djangorestframework==3.13.1
 dominate==2.4.0
 drf-yasg==1.20.0
 future==0.16.0
-# gdal==3.5.2
 django-heartbeat==2.0.2
 hsmodels==0.5.3
 jsonschema==2.6.0
@@ -33,18 +37,14 @@ Mezzanine==5.1.4
 nameparser==0.5.7
 netCDF4==1.5.1.2
 numpy==1.16.* # also included in dockerfile (order matters)
-# osgeo==0.0.1
-# osr==0.0.1
 paramiko==2.4.2
-# Pillow==9.2.0
 probablepeople==0.5.4
 PyCRS==1.0.1
-pydantic # pydantic was added by Devin
+pydantic # pydantic seemed to be missing
 pyproj
-python-dateutil==2.5.3
-pytz==2016.3
+python-dateutil==2.8.*
+pytz==2021.*
 rdflib==5.0.0
-# recommonmark
 requests==2.27.1
 robot-detection==0.4
 six==1.16.0
