@@ -49,6 +49,9 @@ WORKDIR /
 #install numpy before matplotlib
 RUN pip install 'numpy==1.16.*'
 
+# TODO: unsure if we need inplaceedit (pending Pabitra's work)
+# RUN pip install git+https://github.com/theromis/django-inplaceedit.git@e6fa12355defedf769a5f06edc8fc079a6e982ec
+
 # This is the only thing holding us back from python 3.9
 RUN pip install git+https://github.com/sblack-usu/defusedexpat.git
 
