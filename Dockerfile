@@ -13,11 +13,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 
-# Add docker.list and requirements.txt - using /tmp to keep hub.docker happy
-COPY . /tmp
-RUN cp /tmp/docker.list /etc/apt/sources.list.d/ \
-    && cp /tmp/requirements.txt /requirements.txt
-
+COPY docker.list /etc/apt/sources.list.d/
 RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7EA0A9C3F273FCD8
 
 RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' \
@@ -45,6 +41,9 @@ RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     nodejs
 RUN npm install -g phantomjs-prebuilt
 
+# Add docker.list and requirements.txt - using /tmp to keep hub.docker happy
+COPY . /tmp
+RUN cp /tmp/requirements.txt /requirements.txt
 WORKDIR /
 
 # Install pip based packages (due to dependencies some packages need to come first)
@@ -52,13 +51,14 @@ RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal
 RUN export C_INCLUDE_PATH=/usr/include/gdal 
 RUN export GEOS_CONFIG=/usr/bin/geos-config 
 RUN HDF5_INCDIR=/usr/include/hdf5/serial 
+RUN pip install numpy==1.16.*
 RUN pip install --upgrade pip 
 RUN pip install -r requirements.txt
 
 # foresite-toolkit in pip isn't compatible with python3
 RUN pip install git+https://github.com/sblack-usu/foresite-toolkit.git#subdirectory=foresite-python/trunk
 
-RUN pip freeze > requirements.txt
+
 # ########################################################
 # TODO: not sure that we need to wget gdal and install here? Removing for now...
 # We install gdal-bin above with apt... but maybe we need to do this to get geos? If so, maybe we should remove it above...
@@ -76,7 +76,6 @@ RUN pip freeze > requirements.txt
 # TODO: do we need to add Python bindings for Gdal?
 # https://mothergeo-py.readthedocs.io/en/latest/development/how-to/gdal-ubuntu-pkg.html
 # RUN python -m pip install --upgrade --no-cache-dir setuptools==58.0.2
-# RUN pip install GDAL==3.2.2
 # RUN pip install GDAL==`ogrinfo --version`
 # ########################################################
 
