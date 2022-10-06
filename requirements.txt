@@ -1,14 +1,24 @@
 # narrowed down using https://github.com/bndr/pipreqs
+# then added INSTALLED_APPS manually
 # commented were found by pipreqs but weren't in our pip freeze from hs container
 arrow==0.7.0
 celery==4.4.0
 deepdiff==1.7.0
-# defusedexpat included in dockerfile separately
+defusedexpat #included in dockerfile separately
 Django==3.2.15
+django-autocomplete-light==2.3.6
 django-contrib-comments==2.2.0
+django-cors-headers==3.10.1
 django-crispy-forms==1.13.0
 django-haystack==3.1.1
+django-heartbeat==2.0.2
 django-nose==1.4.5
+django-oauth-toolkit==2.1.0
+django-robots==4.0
+django-security==0.12.0
+django-test-without-migrations==0.6
+django-widget-tweaks==1.4.1
+djangorestframework==3.13.1
 dominate==2.4.0
 drf-yasg==1.20.0
 future==0.16.0
@@ -19,6 +29,7 @@ jsonschema==2.6.0
 kombu==4.6.7
 lxml==4.4.0
 Markdown==3.0.1
+Mezzanine==5.1.4
 nameparser==0.5.7
 netCDF4==1.5.1.2
 numpy==1.16.* # also included in dockerfile (order matters)

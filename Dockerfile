@@ -46,12 +46,16 @@ COPY . /tmp
 RUN cp /tmp/requirements.txt /requirements.txt
 WORKDIR /
 
+#install numpy before matplotlib
+RUN pip install 'numpy==1.16.*'
+
+RUN pip install git+https://github.com/sblack-usu/defusedexpat.git
+
 # Install pip based packages (due to dependencies some packages need to come first)
 RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal 
 RUN export C_INCLUDE_PATH=/usr/include/gdal 
 RUN export GEOS_CONFIG=/usr/bin/geos-config 
 RUN HDF5_INCDIR=/usr/include/hdf5/serial 
-RUN pip install numpy==1.16.*
 RUN pip install --upgrade pip 
 RUN pip install -r requirements.txt
 
