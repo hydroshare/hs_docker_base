@@ -8,16 +8,19 @@ RUN printf "deb http://deb.debian.org/debian/ bullseye main\ndeb http://security
 RUN apt-get update && apt-get install -y \
     apt-transport-https \
     ca-certificates \
-    sudo \
-    && apt-key adv --keyserver keys.openpgp.org --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+    sudo
+# TODO: figure out what this key was and add it using keys.openpgp.org or similar keyserver
+# RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+# something like:
+# RUN apt-key adv --keyserver keys.openpgp.org --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 
 RUN curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 
 COPY docker.list /etc/apt/sources.list.d/
 RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7EA0A9C3F273FCD8
 
-RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' \
-    && wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -
+RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     apt-utils \
@@ -30,8 +33,9 @@ RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     gdal-bin \
     build-essential \
     libgdal-dev \
-    postgresql-9.4 \
-    postgresql-client-9.4 \
+    gnupg2 \
+    postgresql-14 \
+    postgresql-client-14 \
     git \
     rsync \
     openssh-client \
