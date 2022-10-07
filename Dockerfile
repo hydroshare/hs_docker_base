@@ -8,11 +8,11 @@ RUN printf "deb http://deb.debian.org/debian/ bullseye main\ndeb http://security
 RUN apt-get update && apt-get install -y \
     apt-transport-https \
     ca-certificates \
-    sudo \
-    curl \
-    gnupg \
-    lsb-release
-RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+    sudo
+# TODO: figure out what this key was and add it using keys.openpgp.org or similar keyserver
+# RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+# something like:
+# RUN apt-key adv --keyserver keys.openpgp.org --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 
 RUN curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 
