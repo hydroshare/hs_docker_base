@@ -1,9 +1,9 @@
-FROM python:3.9-bullseye
+FROM python:3.9-buster
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PY_SAX_PARSER=hs_core.xmlparser
 
-RUN printf "deb http://deb.debian.org/debian/ bullseye main\ndeb http://security.debian.org/debian-security bullseye-security main" > /etc/apt/sources.list
+RUN printf "deb http://deb.debian.org/debian/ buster main\ndeb http://security.debian.org/debian-security buster/updates main" > /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
     apt-transport-https \
@@ -91,7 +91,7 @@ WORKDIR /
 
 # Install iRODS
 RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key add - \
-    && echo "deb [arch=amd64] https://packages.irods.org/apt/ bullseye main" | \
+    && echo "deb [arch=amd64] https://packages.irods.org/apt/ bionic main" | \
     sudo tee /etc/apt/sources.list.d/renci-irods.list \
     && sudo apt-get update && sudo apt-get install -y \
     apt-transport-https \

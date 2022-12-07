@@ -1,1 +1,1 @@
-deb https://download.docker.com/linux/debian bullseye stable
+deb https://download.docker.com/linux/debian buster stable
