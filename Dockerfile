@@ -9,7 +9,6 @@ RUN apt-get update && apt-get install -y \
     apt-transport-https \
     ca-certificates \
     curl \
-    gnupg \
     lsb-release \
     sudo
 
@@ -41,7 +40,6 @@ RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     gdal-bin \
     build-essential \
     libgdal-dev \
-    gnupg2 \
     postgresql-15 \
     postgresql-client-15 \
     git \
@@ -78,11 +76,11 @@ RUN pip install -r requirements.txt
 # foresite-toolkit in pip isn't compatible with python3
 RUN pip install git+https://github.com/sblack-usu/foresite-toolkit.git#subdirectory=foresite-python/trunk
 
-RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/3.5.2/gdal-3.5.2.tar.gz \
-    && tar -xzf gdal-3.5.2.tar.gz \
-    && rm gdal-3.5.2.tar.gz
+RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/2.4.1/gdal-2.4.1.tar.gz \
+    && tar -xzf gdal-2.4.1.tar.gz \
+    && rm gdal-2.4.1.tar.gz
 
-WORKDIR /gdal-3.5.2
+WORKDIR /gdal-2.4.1
 RUN ./configure --with-python --with-geos=yes \
     && make \
     && sudo make install \
