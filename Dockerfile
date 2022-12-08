@@ -93,8 +93,8 @@ RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key a
     sudo tee /etc/apt/sources.list.d/renci-irods.list \
     && sudo apt-get update && sudo apt-get install -y \
     apt-transport-https \
-    irods-runtime \
-    irods-icommands
+    irods-runtime=4.2.11 \
+    irods-icommands=4.2.11
 
 # Install SSH for remote PyCharm debugging
 RUN mkdir /var/run/sshd
