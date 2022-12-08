@@ -68,9 +68,7 @@ RUN export GEOS_CONFIG=/usr/bin/geos-config
 RUN HDF5_INCDIR=/usr/include/hdf5/serial 
 RUN pip install --upgrade pip 
 RUN pip install 'setuptools<58.0.0'
-# Add docker.list and requirements.txt - using /tmp to keep hub.docker happy
-COPY . /tmp
-RUN cp /tmp/requirements.txt /requirements.txt
+COPY ./requirements.txt /requirements.txt
 RUN pip install -r requirements.txt
 
 # foresite-toolkit in pip isn't compatible with python3
