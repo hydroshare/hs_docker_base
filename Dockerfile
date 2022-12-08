@@ -87,15 +87,21 @@ RUN ./configure --with-python --with-geos=yes \
     && sudo ldconfig
 WORKDIR /
 
+# TODO: iROds 4.2.x is holding us to Debian Buster which is EOL. It also requires libssl1.0.0 which is obsolete
+# we should upgrade to iRods 4.3, Debian Bullseye, etc but this will require at a minimum, changes to our iinit use in HS
+RUN wget http://snapshot.debian.org/archive/debian/20190501T215844Z/pool/main/g/glibc/multiarch-support_2.28-10_amd64.deb
+RUN sudo dpkg -i multiarch-support*.deb
+RUN wget http://snapshot.debian.org/archive/debian/20170705T160707Z/pool/main/o/openssl/libssl1.0.0_1.0.2l-1%7Ebpo8%2B1_amd64.deb
+RUN sudo dpkg -i libssl1.0.0*.deb
+
 # Install iRODS
 RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key add - \
     && echo "deb [arch=amd64] https://packages.irods.org/apt/ bionic main" | \
     sudo tee /etc/apt/sources.list.d/renci-irods.list \
     && sudo apt-get update && sudo apt-get install -y \
     apt-transport-https \
-    irods-runtime=4.2.11 \
-    irods-icommands=4.2.11
-
+    irods-runtime=4.2.10 \
+    irods-icommands=4.2.10
 # Install SSH for remote PyCharm debugging
 RUN mkdir /var/run/sshd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
