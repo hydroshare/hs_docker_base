@@ -57,6 +57,8 @@ RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal
 RUN export C_INCLUDE_PATH=/usr/include/gdal 
 RUN export GEOS_CONFIG=/usr/bin/geos-config 
 RUN HDF5_INCDIR=/usr/include/hdf5/serial 
+RUN pip install --upgrade pip 
+RUN pip install 'setuptools<58.0.0'
 
 RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/2.4.1/gdal-2.4.1.tar.gz \
     && tar -xzf gdal-2.4.1.tar.gz \
@@ -93,8 +95,6 @@ RUN pip install 'numpy==1.16.*'
 # Added defusedxml
 # https://docs.python.org/3.9/library/xml.html?highlight=xml#the-defusedxml-package
 # https://github.com/python/cpython/issues/82766
-RUN pip install --upgrade pip 
-RUN pip install 'setuptools<58.0.0'
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r requirements.txt
 
