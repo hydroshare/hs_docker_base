@@ -53,26 +53,10 @@ RUN npm install -g phantomjs-prebuilt
 
 WORKDIR /
 
-#install numpy before matplotlib
-RUN pip install 'numpy==1.16.*'
-
-# Removed defusedexpat (python 3.9)
-# Added defusedxml
-# https://docs.python.org/3.9/library/xml.html?highlight=xml#the-defusedxml-package
-# https://github.com/python/cpython/issues/82766
-
-# Install pip based packages (due to dependencies some packages need to come first)
 RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal 
 RUN export C_INCLUDE_PATH=/usr/include/gdal 
 RUN export GEOS_CONFIG=/usr/bin/geos-config 
 RUN HDF5_INCDIR=/usr/include/hdf5/serial 
-RUN pip install --upgrade pip 
-RUN pip install 'setuptools<58.0.0'
-COPY ./requirements.txt /requirements.txt
-RUN pip install -r requirements.txt
-
-# foresite-toolkit in pip isn't compatible with python3
-RUN pip install git+https://github.com/sblack-usu/foresite-toolkit.git#subdirectory=foresite-python/trunk
 
 RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/2.4.1/gdal-2.4.1.tar.gz \
     && tar -xzf gdal-2.4.1.tar.gz \
@@ -100,6 +84,23 @@ RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key a
     apt-transport-https \
     irods-runtime=4.2.10 \
     irods-icommands=4.2.10
+
+# Install pip based packages (due to dependencies some packages need to come first)
+#install numpy before matplotlib
+RUN pip install 'numpy==1.16.*'
+
+# Removed defusedexpat (python 3.9)
+# Added defusedxml
+# https://docs.python.org/3.9/library/xml.html?highlight=xml#the-defusedxml-package
+# https://github.com/python/cpython/issues/82766
+RUN pip install --upgrade pip 
+RUN pip install 'setuptools<58.0.0'
+COPY ./requirements.txt /requirements.txt
+RUN pip install -r requirements.txt
+
+# foresite-toolkit in pip isn't compatible with python3
+RUN pip install git+https://github.com/sblack-usu/foresite-toolkit.git#subdirectory=foresite-python/trunk
+
 # Install SSH for remote PyCharm debugging
 RUN mkdir /var/run/sshd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
