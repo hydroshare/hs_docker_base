@@ -1,3 +1,4 @@
+safety check --output text > safety.txt
 +==============================================================================+
 
                                    /$$$$$$            /$$
@@ -28,9 +29,9 @@ https://pyup.io
   -> /usr/local/lib/python3.9/site-packages
 
   Using non-commercial database
-  Found and scanned 180 packages
-  Timestamp 2022-12-09 16:43:12
-  25 vulnerabilities found
+  Found and scanned 181 packages
+  Timestamp 2022-12-09 17:29:55
+  24 vulnerabilities found
   0 vulnerabilities ignored
 
 +==============================================================================+
@@ -235,15 +236,6 @@ https://pyup.io
    For more information, please visit https://pyup.io/v/49256/f17
 
 
--> Vulnerability found in ecdsa version 0.13.3
-   Vulnerability ID: 37637
-   Affected spec: <0.14
-   ADVISORY: In ecdsa 0.14, deterministic signatures verify that the
-   signature won't leak private key through very unlikely selection of `k`...
-   PVE-2021-37637
-   For more information, please visit https://pyup.io/v/37637/f17
-
-
 -> Vulnerability found in django version 3.2.15
    Vulnerability ID: 51340
    Affected spec: <3.2.16
@@ -261,12 +253,12 @@ https://pyup.io
    CVE-2021-23727
    For more information, please visit https://pyup.io/v/43738/f17
 
- Scan was completed. 25 vulnerabilities were found. 
+ Scan was completed. 24 vulnerabilities were found. 
 
 +==============================================================================+
    REMEDIATIONS
 
-  25 vulnerabilities were found in 14 packages. For detailed remediation & fix 
+  24 vulnerabilities were found in 13 packages. For detailed remediation & fix 
   recommendations, upgrade to a commercial license. 
 
 +==============================================================================+
