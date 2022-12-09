@@ -8,6 +8,7 @@ arrow==0.7.0
 autopep8==1.2.2
   pep8==1.7.0
 bagit==1.5.4
+debugpy==1.6.4
 deepdiff==1.7.0
 defusedxml==0.7.1
 django-autocomplete-light==2.3.6
@@ -134,7 +135,8 @@ drf-yasg==1.20.0
       pytz==2022.6
       sqlparse==0.4.3
   inflection==0.3.1
-  packaging==22.0
+  packaging==21.3
+    pyparsing==3.0.9
   ruamel.yaml==0.17.21
     ruamel.yaml.clib==0.2.7
   uritemplate==3.0.0
@@ -145,7 +147,7 @@ flake8==6.0.0
   pycodestyle==2.10.0
   pyflakes==3.0.1
 flex==6.14.1
-  click==6.7
+  click==8.1.3
   jsonpointer==1.14
   PyYAML==5.3
   requests==2.27.1
@@ -217,7 +219,8 @@ Mezzanine==5.1.4
   beautifulsoup4==4.11.1
     soupsieve==2.3.2.post1
   bleach==4.1.0
-    packaging==22.0
+    packaging==21.3
+      pyparsing==3.0.9
     six==1.16.0
     webencodings==0.5.1
   chardet==5.1.0
@@ -309,7 +312,8 @@ pytest-cov==3.0.0
     attrs==22.1.0
     exceptiongroup==1.0.4
     iniconfig==1.1.1
-    packaging==22.0
+    packaging==21.3
+      pyparsing==3.0.9
     pluggy==1.0.0
     tomli==2.0.1
 pytest-django==3.10.0
@@ -317,7 +321,8 @@ pytest-django==3.10.0
     attrs==22.1.0
     exceptiongroup==1.0.4
     iniconfig==1.1.1
-    packaging==22.0
+    packaging==21.3
+      pyparsing==3.0.9
     pluggy==1.0.0
     tomli==2.0.1
 python-irodsclient==0.8.1
@@ -327,6 +332,22 @@ python-irodsclient==0.8.1
 redis==2.10.5
 robot-detection==0.4
   six==1.16.0
+safety==2.3.5
+  click==8.1.3
+  dparse==0.6.2
+    packaging==21.3
+      pyparsing==3.0.9
+    toml==0.10.2
+  packaging==21.3
+    pyparsing==3.0.9
+  requests==2.27.1
+    certifi==2022.12.7
+    charset-normalizer==2.0.12
+    idna==3.4
+    urllib3==1.26.13
+  ruamel.yaml==0.17.21
+    ruamel.yaml.clib==0.2.7
+  setuptools==57.5.0
 selenium==3.0.2
 sorl-thumbnail==12.8.0
 suds-jurko==0.6

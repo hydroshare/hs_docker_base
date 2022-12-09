@@ -29,8 +29,8 @@ https://pyup.io
   -> /usr/local/lib/python3.9/site-packages
 
   Using non-commercial database
-  Found and scanned 181 packages
-  Timestamp 2022-12-09 17:29:55
+  Found and scanned 182 packages
+  Timestamp 2022-12-09 17:34:01
   24 vulnerabilities found
   0 vulnerabilities ignored
 
