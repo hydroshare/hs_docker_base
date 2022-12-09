@@ -1,3 +1,5 @@
+# generated using pipdeptree https://github.com/tox-dev/pipdeptree
+# pipdeptree -f | sed 's/ //g' | sort -u > requirements.txt
 amqp==2.6.1
 anyjson==0.3.3
 arrow==0.7.0
@@ -122,6 +124,7 @@ pycodestyle==2.10.0
 pycparser==2.21
 PyCRS==1.0.1
 pydantic==1.10.2
+pydebug==1.0.3
 pyflakes==3.0.1
 pylint==1.5.5
 PyNaCl==1.5.0
