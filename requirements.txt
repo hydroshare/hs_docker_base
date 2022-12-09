@@ -27,7 +27,7 @@ dominate==2.4.0
 drf-haystack==1.8.11
 drf-yasg==1.20.0
 ecdsa==0.13.3
-flake8-rst-docstrings==0.3.0
+flake8==6.0.0
 flex==6.14.1
 flower==0.9.3
 foresite @ git+https://github.com/sblack-usu/foresite-toolkit.git@94c0c2a8e21a922caa1df6cc412d5dc1a7adb189#subdirectory=foresite-python/trunk
@@ -52,7 +52,6 @@ nose-timer==0.7.6
 OWSLib==0.10.3
 paramiko==2.4.2
 pip==22.3.1
-pipdeptree==2.3.3
 probablepeople==0.5.4
 psycopg2==2.8.2
 PyCRS==1.0.1
