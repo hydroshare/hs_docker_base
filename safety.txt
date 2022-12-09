@@ -1,0 +1,280 @@
++==============================================================================+
+
+                                   /$$$$$$            /$$
+                                  /$$__  $$          | $$
+               /$$$$$$$  /$$$$$$ | $$  \__//$$$$$$  /$$$$$$   /$$   /$$
+              /$$_____/ |____  $$| $$$$   /$$__  $$|_  $$_/  | $$  | $$
+             |  $$$$$$   /$$$$$$$| $$_/  | $$$$$$$$  | $$    | $$  | $$
+              \____  $$ /$$__  $$| $$    | $$_____/  | $$ /$$| $$  | $$
+              /$$$$$$$/|  $$$$$$$| $$    |  $$$$$$$  |  $$$$/|  $$$$$$$
+             |_______/  \_______/|__/     \_______/   \___/   \____  $$
+                                                              /$$  | $$
+                                                             |  $$$$$$/
+      by pyup.io                                              \______/
+
++==============================================================================+
+
+ REPORT 
+
+  You are using Safety's free vulnerability database. This data is
+outdated, limited, and 
+  licensed for non-commercial use only.
+  All commercial projects must sign up and get an API key at
+https://pyup.io
+
+  Safety v2.3.5 is scanning for Vulnerabilities...
+  Scanning dependencies in your environment:
+
+  -> /usr/local/lib/python3.9/site-packages
+
+  Using non-commercial database
+  Found and scanned 180 packages
+  Timestamp 2022-12-09 16:43:12
+  25 vulnerabilities found
+  0 vulnerabilities ignored
+
++==============================================================================+
+ VULNERABILITIES FOUND
++==============================================================================+
+
+-> Vulnerability found in rdflib version 5.0.0
+   Vulnerability ID: 48547
+   Affected spec: >0
+   ADVISORY: Rdflib provides no way to control how external references
+   are resolved, nor a way to implement caching of external resources. This...
+   PVE-2022-48547
+   For more information, please visit https://pyup.io/v/48547/f17
+
+
+-> Vulnerability found in pyyaml version 5.3
+   Vulnerability ID: 39611
+   Affected spec: <5.4
+   ADVISORY: Pyyaml version 5.4 includes a fix for CVE-2020-14343: A
+   vulnerability was discovered in the PyYAML library in versions before 5.4,...
+   CVE-2020-14343
+   For more information, please visit https://pyup.io/v/39611/f17
+
+
+-> Vulnerability found in pyyaml version 5.3
+   Vulnerability ID: 38100
+   Affected spec: <5.3.1
+   ADVISORY: Pyyaml 5.3.1 includes a fix for CVE-2020-1747: A
+   vulnerability was discovered in the PyYAML library in versions before...
+   CVE-2020-1747
+   For more information, please visit https://pyup.io/v/38100/f17
+
+
+-> Vulnerability found in pylint version 1.5.5
+   Vulnerability ID: 45185
+   Affected spec: <2.13.0
+   ADVISORY: Pylint 2.13.0 fixes a crash when using the doc_params
+   extension.https://github.com/PyCQA/pylint/issues/5322
+   PVE-2022-45185
+   For more information, please visit https://pyup.io/v/45185/f17
+
+
+-> Vulnerability found in pylint version 1.5.5
+   Vulnerability ID: 38224
+   Affected spec: <2.5.0
+   ADVISORY: Pylint 2.5.0 no longer allows ``python -m pylint ...`` to
+   import user code. Previously, it added the current working directory as...
+   PVE-2021-38224
+   For more information, please visit https://pyup.io/v/38224/f17
+
+
+-> Vulnerability found in pylint version 1.5.5
+   Vulnerability ID: 39621
+   Affected spec: <2.7.0
+   ADVISORY: Pylint 2.7.0 includes a fix for vulnerable regular
+   expressions in 'pyreverse'.
+   PVE-2021-39621
+   For more information, please visit https://pyup.io/v/39621/f17
+
+
+-> Vulnerability found in psutil version 4.0.0
+   Vulnerability ID: 37765
+   Affected spec: <=5.6.5
+   ADVISORY: psutil (aka python-psutil) through 5.6.5 can have a double
+   free. This occurs because of refcount mishandling within a while or for...
+   CVE-2019-18874
+   For more information, please visit https://pyup.io/v/37765/f17
+
+
+-> Vulnerability found in numpy version 1.16.6
+   Vulnerability ID: 43453
+   Affected spec: <1.21.0rc1
+   ADVISORY: Numpy 1.21.0rc1 includes a fix for CVE-2021-33430: A Buffer
+   Overflow vulnerability in the PyArray_NewFromDescr_int function of ctors.c...
+   CVE-2021-33430
+   For more information, please visit https://pyup.io/v/43453/f17
+
+
+-> Vulnerability found in numpy version 1.16.6
+   Vulnerability ID: 44717
+   Affected spec: <1.22.0
+   ADVISORY: Numpy 1.22.0 includes a fix for CVE-2021-34141: An
+   incomplete string comparison in the numpy.core component in NumPy before...
+   CVE-2021-34141
+   For more information, please visit https://pyup.io/v/44717/f17
+
+
+-> Vulnerability found in numpy version 1.16.6
+   Vulnerability ID: 44716
+   Affected spec: <1.22.0
+   ADVISORY: Numpy 1.22.0 includes a fix for CVE-2021-41496: Buffer
+   overflow in the array_from_pyobj function of fortranobject.c, which allows...
+   CVE-2021-41496
+   For more information, please visit https://pyup.io/v/44716/f17
+
+
+-> Vulnerability found in numpy version 1.16.6
+   Vulnerability ID: 44715
+   Affected spec: <1.22.2
+   ADVISORY: Numpy 1.22.2  includes a fix for CVE-2021-41495: Null
+   Pointer Dereference vulnerability exists in numpy.sort in NumPy in the...
+   CVE-2021-41495
+   For more information, please visit https://pyup.io/v/44715/f17
+
+
+-> Vulnerability found in lxml version 4.4.0
+   Vulnerability ID: 43366
+   Affected spec: <4.6.5
+   ADVISORY: Lxml 4.6.5 includes a fix for CVE-2021-43818: Prior to
+   version 4.6.5, the HTML Cleaner in lxml.html lets certain crafted script...
+   CVE-2021-43818
+   For more information, please visit https://pyup.io/v/43366/f17
+
+
+-> Vulnerability found in lxml version 4.4.0
+   Vulnerability ID: 40072
+   Affected spec: <4.6.3
+   ADVISORY: Lxml version 4.6.3 includes a fix for CVE-2021-28957: An
+   XSS vulnerability was discovered in python-lxml's clean module versions...
+   CVE-2021-28957
+   For more information, please visit https://pyup.io/v/40072/f17
+
+
+-> Vulnerability found in lxml version 4.4.0
+   Vulnerability ID: 39194
+   Affected spec: <4.6.2
+   ADVISORY: Lxml 4.6.2 includes a fix for CVE-2020-27783: A XSS
+   vulnerability was discovered in python-lxml's clean module. The module's...
+   CVE-2020-27783
+   For more information, please visit https://pyup.io/v/39194/f17
+
+
+-> Vulnerability found in lxml version 4.4.0
+   Vulnerability ID: 50748
+   Affected spec: <4.9.1
+   ADVISORY: Lxml 4.9.1 includes a fix for CVE-2022-2309: NULL Pointer
+   Dereference allows attackers to cause a denial of service (or application...
+   CVE-2022-2309
+   For more information, please visit https://pyup.io/v/50748/f17
+
+
+-> Vulnerability found in jinja2 version 2.10.1
+   Vulnerability ID: 39525
+   Affected spec: <2.11.3
+   ADVISORY: This affects the package jinja2 from 0.0.0 and before
+   2.11.3. The ReDoS vulnerability is mainly due to the '_punctuation_re...
+   CVE-2020-28493
+   For more information, please visit https://pyup.io/v/39525/f17
+
+
+-> Vulnerability found in html5lib version 0.9999999
+   Vulnerability ID: 35693
+   Affected spec: <0.99999999
+   ADVISORY: The serializer in html5lib before 0.99999999 might allow
+   remote attackers to conduct cross-site scripting (XSS) attacks by...
+   CVE-2016-9909
+   For more information, please visit https://pyup.io/v/35693/f17
+
+
+-> Vulnerability found in html5lib version 0.9999999
+   Vulnerability ID: 35694
+   Affected spec: <0.99999999
+   ADVISORY: The serializer in html5lib before 0.99999999 might allow
+   remote attackers to conduct cross-site scripting (XSS) attacks by...
+   CVE-2016-9910
+   For more information, please visit https://pyup.io/v/35694/f17
+
+
+-> Vulnerability found in gunicorn version 19.6.0
+   Vulnerability ID: 40104
+   Affected spec: <19.10.0
+   ADVISORY: Gunicorn 20.0.1 fixes chunked encoding support to prevent
+   http request smuggling...
+   PVE-2021-40104
+   For more information, please visit https://pyup.io/v/40104/f17
+
+
+-> Vulnerability found in gdal version 2.4.1
+   Vulnerability ID: 48545
+   Affected spec: <3.5.0
+   ADVISORY: Gdal 3.5.0 fixes an out of bounds read in CPLRecodeFromWCha
+   ...
+   PVE-2022-48545
+   For more information, please visit https://pyup.io/v/48545/f17
+
+
+-> Vulnerability found in gdal version 2.4.1
+   Vulnerability ID: 42370
+   Affected spec: <3.1.0
+   ADVISORY: Gdal 3.1.0 includes multiple security related fixes
+   detected by OSS-...
+   PVE-2021-42370
+   For more information, please visit https://pyup.io/v/42370/f17
+
+
+-> Vulnerability found in flower version 0.9.3
+   Vulnerability ID: 49256
+   Affected spec: <=1.0.0
+   ADVISORY: Flower 1.0.0 and prior are vulnerable to CVE-2022-30034:
+   All versions as of 05-02-2022 are vulnerable to an OAuth authentication...
+   CVE-2022-30034
+   For more information, please visit https://pyup.io/v/49256/f17
+
+
+-> Vulnerability found in ecdsa version 0.13.3
+   Vulnerability ID: 37637
+   Affected spec: <0.14
+   ADVISORY: In ecdsa 0.14, deterministic signatures verify that the
+   signature won't leak private key through very unlikely selection of `k`...
+   PVE-2021-37637
+   For more information, please visit https://pyup.io/v/37637/f17
+
+
+-> Vulnerability found in django version 3.2.15
+   Vulnerability ID: 51340
+   Affected spec: <3.2.16
+   ADVISORY: In Django 3.2 before 3.2.16, 4.0 before 4.0.8, and 4.1
+   before 4.1.2, internationalized URLs were subject to a potential denial of...
+   CVE-2022-41323
+   For more information, please visit https://pyup.io/v/51340/f17
+
+
+-> Vulnerability found in celery version 4.4.7
+   Vulnerability ID: 43738
+   Affected spec: <5.2.2
+   ADVISORY: Celery 5.2.2 includes a fix for CVE-2021-23727: Celery
+   before 5.2.2. by default trusts the messages and metadata stored in...
+   CVE-2021-23727
+   For more information, please visit https://pyup.io/v/43738/f17
+
+ Scan was completed. 25 vulnerabilities were found. 
+
++==============================================================================+
+   REMEDIATIONS
+
+  25 vulnerabilities were found in 14 packages. For detailed remediation & fix 
+  recommendations, upgrade to a commercial license. 
+
++==============================================================================+
+
+  You are using Safety's free vulnerability database. This data is
+outdated, limited, and 
+  licensed for non-commercial use only.
+  All commercial projects must sign up and get an API key at
+https://pyup.io
+
++==============================================================================+
