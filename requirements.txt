@@ -47,7 +47,7 @@ django-jsonfield==1.4.1
 django-modeltranslation==0.12.2
 django-nose==1.4.5
 django-oauth-toolkit==2.1.0
-djangorestframework==3.13.1
+djangorestframework==3.12.4
 django-robots==4.0
 django-security==0.12.0
 django-test-without-migrations==0.6
