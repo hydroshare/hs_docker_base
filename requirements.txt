@@ -58,7 +58,6 @@ dnspython==2.2.1
 docker-py==1.7.2
 dominate==2.4.0
 DoubleMetaphone==0.1
-dparse==0.6.2
 drf-haystack==1.8.11
 drf-yasg==1.20.0
 ecdsa==0.18.0
@@ -115,7 +114,6 @@ pbr==1.10.0
 pep8==1.7.0
 Pillow==9.3.0
 pip==22.3.1
-pipdeptree==2.3.3
 pluggy==1.0.0
 prettytable==0.7.2
 probableparsing==0.0.1
@@ -154,7 +152,6 @@ rjsmin==1.2.0
 robot-detection==0.4
 ruamel.yaml==0.17.21
 ruamel.yaml.clib==0.2.7
-safety==2.3.5
 selenium==3.0.2
 setuptools==57.5.0
 six==1.16.0
@@ -164,7 +161,6 @@ sqlparse==0.4.3
 strict-rfc3339==0.7
 suds-jurko==0.6
 timeago==1.0.10
-toml==0.10.2
 tomli==2.0.1
 tornado==5.1.1
 typing_extensions==4.4.0
