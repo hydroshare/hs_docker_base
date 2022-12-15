@@ -19,8 +19,6 @@ RUN echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-RUN apt-get update && sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
-
 RUN curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 
 COPY docker.list /etc/apt/sources.list.d/
@@ -31,7 +29,6 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo 
 
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     apt-utils \
-    docker-ce \
     libfuse2 \
     libjpeg62-turbo \
     libjpeg62-turbo-dev \
