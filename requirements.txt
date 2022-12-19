@@ -141,7 +141,7 @@ python-dateutil==2.8.0
 python-irodsclient==0.8.1
 pytz==2022.6
 pytz-deprecation-shim==0.1.0.post0
-PyYAML==5.3
+PyYAML==5.4
 rcssmin==1.1.0
 rdflib==5.0.0
 redis==2.10.5
