@@ -1,33 +1,34 @@
-FROM python:3.6-jessie
-MAINTAINER Michael J. Stealey <stealey@renci.org>
-
+FROM python:3.9-buster
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PY_SAX_PARSER=hs_core.xmlparser
 
-RUN printf "deb http://deb.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main" > /etc/apt/sources.list
+RUN printf "deb http://deb.debian.org/debian/ buster main\ndeb http://security.debian.org/debian-security buster/updates main" > /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
     apt-transport-https \
     ca-certificates \
-    sudo \
-    && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+    curl \
+    lsb-release \
+    sudo
 
-RUN curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+RUN sudo mkdir -p /etc/apt/keyrings
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
-# Add docker.list and requirements.txt - using /tmp to keep hub.docker happy
-COPY . /tmp
-RUN cp /tmp/docker.list /etc/apt/sources.list.d/ \
-    && cp /tmp/requirements.txt /requirements.txt
+RUN echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
+RUN curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+
+COPY docker.list /etc/apt/sources.list.d/
 RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7EA0A9C3F273FCD8
 
-RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' \
-    && wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -
+RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     apt-utils \
-    docker-ce \
     libfuse2 \
     libjpeg62-turbo \
     libjpeg62-turbo-dev \
@@ -36,9 +37,8 @@ RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     gdal-bin \
     build-essential \
     libgdal-dev \
-    libgdal1h \
-    postgresql-9.4 \
-    postgresql-client-9.4 \
+    postgresql-15 \
+    postgresql-client-15 \
     git \
     rsync \
     openssh-client \
@@ -50,21 +50,14 @@ RUN npm install -g phantomjs-prebuilt
 
 WORKDIR /
 
-#install numpy before matplotlib
-RUN pip install 'numpy==1.16.0'
-
-RUN pip install git+https://github.com/sblack-usu/defusedexpat.git
-
-# Install pip based packages (due to dependencies some packages need to come first)
 RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal 
 RUN export C_INCLUDE_PATH=/usr/include/gdal 
 RUN export GEOS_CONFIG=/usr/bin/geos-config 
 RUN HDF5_INCDIR=/usr/include/hdf5/serial 
 RUN pip install --upgrade pip 
-RUN pip install -r requirements.txt
+RUN pip install 'setuptools<58.0.0'
 
-# Install GDAL 2.4.1 from source
-RUN wget http://download.osgeo.org/gdal/2.4.1/gdal-2.4.1.tar.gz \
+RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/2.4.1/gdal-2.4.1.tar.gz \
     && tar -xzf gdal-2.4.1.tar.gz \
     && rm gdal-2.4.1.tar.gz
 
@@ -75,19 +68,30 @@ RUN ./configure --with-python --with-geos=yes \
     && sudo ldconfig
 WORKDIR /
 
+# TODO: iROds 4.2.x is holding us to Debian Buster which is EOL. It also requires libssl1.0.0 which is obsolete
+# we should upgrade to iRods 4.3, Debian Bullseye, etc but this will require at a minimum, changes to our iinit use in HS
+RUN wget http://snapshot.debian.org/archive/debian/20190501T215844Z/pool/main/g/glibc/multiarch-support_2.28-10_amd64.deb
+RUN sudo dpkg -i multiarch-support*.deb
+RUN wget http://snapshot.debian.org/archive/debian/20170705T160707Z/pool/main/o/openssl/libssl1.0.0_1.0.2l-1%7Ebpo8%2B1_amd64.deb
+RUN sudo dpkg -i libssl1.0.0*.deb
+
 # Install iRODS
 RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key add - \
-    && echo "deb [arch=amd64] https://packages.irods.org/apt/ trusty main" | \
+    && echo "deb [arch=amd64] https://packages.irods.org/apt/ bionic main" | \
     sudo tee /etc/apt/sources.list.d/renci-irods.list \
     && sudo apt-get update && sudo apt-get install -y \
     apt-transport-https \
-    irods-runtime \
-    irods-icommands
+    irods-runtime=4.2.10 \
+    irods-icommands=4.2.10
 
-# inplaceedit in pip doesn't seem compatible with Django 1.11 yet...
-RUN pip install git+https://github.com/theromis/django-inplaceedit.git@e6fa12355defedf769a5f06edc8fc079a6e982ec
-# foresite-toolkit in pip isn't compatible with python3
-RUN pip install git+https://github.com/sblack-usu/foresite-toolkit.git#subdirectory=foresite-python/trunk
+# Removed defusedexpat (as part of upgrade to python 3.9)
+# Added defusedxml
+# https://docs.python.org/3.9/library/xml.html?highlight=xml#the-defusedxml-package
+# https://github.com/python/cpython/issues/82766
+
+# Install pip based packages (due to dependencies some packages need to come first)
+COPY ./requirements.txt /requirements.txt
+RUN pip install -r requirements.txt
 
 # Install SSH for remote PyCharm debugging
 RUN mkdir /var/run/sshd
