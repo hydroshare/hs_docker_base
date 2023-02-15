@@ -31,7 +31,7 @@ debugpy==1.6.4
 deepdiff==1.7.0
 defusedxml==0.7.1
 Deprecated==1.2.13
-Django==3.2.15
+Django==3.2.18
 django-appconf==1.0.5
 django-autocomplete-light==2.3.6
 django-braces==1.15.0
