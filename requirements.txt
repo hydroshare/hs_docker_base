@@ -79,7 +79,7 @@ gevent==22.10.2
 grappelli-safe==1.1.1
 greenlet==2.0.1
 gunicorn==20.1.0
-hsmodels@git+https://github.com/hydroshare/hsmodels.git@0.5.7
+hsmodels@git+https://github.com/hydroshare/hsmodels.git@0.5.8
 html5lib==1.1
 idna==3.4
 inflection==0.3.1
