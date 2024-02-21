@@ -127,7 +127,7 @@ pyasn1==0.4.4
 pycodestyle==2.10.0
 pycparser==2.21
 PyCRS==1.0.1
-pydantic==1.10.2
+pydantic==2.6.1
 pydebug==1.0.3
 pyflakes==3.0.1
 PyLD==2.0.3
