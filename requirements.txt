@@ -80,7 +80,7 @@ gevent==22.10.2
 grappelli-safe==1.1.1
 greenlet==2.0.1
 gunicorn==20.1.0
-hsmodels==1.0.2
+hsmodels==1.0.0
 html5lib==1.1
 idna==3.4
 inflection==0.3.1
