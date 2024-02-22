@@ -61,7 +61,6 @@ dominate==2.4.0
 DoubleMetaphone==0.1
 drf-haystack==1.8.11
 drf-yasg==1.20.0
-ecdsa==0.18.0
 email-validator==2.1.0
 exceptiongroup==1.0.4
 filebrowser-safe==1.1.1
