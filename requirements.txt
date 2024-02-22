@@ -1,6 +1,6 @@
 # generated using pipdeptree https://github.com/tox-dev/pipdeptree
 # pipdeptree -f | sed 's/ //g' | sort -u > requirements.txt
-aiohttp==3.8.5
+aiohttp==3.9.2
 amqp==5.1.1
 anyjson==0.3.3
 arrow==0.7.0
