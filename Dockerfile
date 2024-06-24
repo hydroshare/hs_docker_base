@@ -93,6 +93,10 @@ RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key a
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r requirements.txt
 
+# Install pandas after other requirements
+# This is because of incompatibility between pandas and python-dateutil versions
+RUN pip install pandas==2.2.2
+
 # Install SSH for remote PyCharm debugging
 RUN mkdir /var/run/sshd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config

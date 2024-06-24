@@ -78,6 +78,7 @@ geographiclib==1.52
 geojson==1.3.2
 geopy==1.16.0
 gevent==23.9.1
+google-cloud-pubsub==2.21.2
 grappelli-safe==1.1.1
 greenlet==2.0.1
 gunicorn==22.0.0
@@ -144,7 +145,8 @@ pytest==7.2.0
 pytest-cov==4.0.0
 pytest-django==4.5.2
 python-crfsuite==0.9.8
-python-dateutil==2.8.0
+# python-dateutil removed due to version mismatch between
+# django-security and pandas
 python-irodsclient==0.8.1
 python-keycloak==3.9.1
 pytz==2022.6
