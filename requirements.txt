@@ -163,7 +163,7 @@ six==1.16.0
 sorl-thumbnail==12.8.0
 soupsieve==2.3.2.post1
 spam_patterns@git+https://github.com/CUAHSI/spam_patterns.git@0.0.4
-sqlparse==0.4.4
+sqlparse==0.5.0
 strict-rfc3339==0.7
 suds-jurko==0.6
 timeago==1.0.10
