@@ -19,7 +19,7 @@ billiard==3.6.4.0
 bleach==4.1.0
 cachetools==5.3.3
 celery==5.2.7
-certifi==2024.2.2
+certifi
 cffi==1.15.1
 cftime==1.6.2
 chardet==5.1.0
@@ -201,7 +201,7 @@ setuptools==65.5.1
 six==1.16.0
 sorl-thumbnail==12.8.0
 soupsieve==2.3.2.post1
-spam-patterns@git+https://github.com/CUAHSI/spam_patterns.git@e09d3b5e6fe151445ecb190be0291cd3405c1172
+spam_patterns@git+https://github.com/CUAHSI/spam_patterns.git@0.0.4
 sqlparse==0.4.4
 strict-rfc3339==0.7
 suds-jurko==0.6
