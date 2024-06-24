@@ -81,7 +81,7 @@ greenlet==2.0.1
 gunicorn==22.0.0
 hsmodels==1.0.0
 html5lib==1.1
-idna==3.4
+idna==3.7
 inflection==0.3.1
 iniconfig==1.1.1
 ipaddress==1.0.22
