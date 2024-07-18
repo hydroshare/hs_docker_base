@@ -81,8 +81,8 @@ RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key a
     sudo tee /etc/apt/sources.list.d/renci-irods.list \
     && sudo apt-get update && sudo apt-get install -y \
     apt-transport-https \
-    irods-runtime=4.2.10 \
-    irods-icommands=4.2.10
+    irods-runtime=4.2.11-1~bionic \
+    irods-icommands=4.2.11-1~bionic
 
 # Removed defusedexpat (as part of upgrade to python 3.9)
 # Added defusedxml
