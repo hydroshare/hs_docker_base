@@ -63,18 +63,6 @@ RUN HDF5_INCDIR=/usr/include/hdf5/serial
 RUN pip install --upgrade pip 
 RUN pip install 'setuptools<58.0.0'
 
-# RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/2.4.1/gdal-2.4.1.tar.gz \
-#     && tar -xzf gdal-2.4.1.tar.gz \
-#     && rm gdal-2.4.1.tar.gz
-
-# WORKDIR /gdal-2.4.1
-# RUN ./configure --with-python --with-geos=yes \
-#     && make \
-#     && sudo make install \
-#     && sudo ldconfig
-# WORKDIR /
-
-
 
 # TODO: iROds 4.2.x is holding us to Debian Buster which is EOL. It also requires libssl1.0.0 which is obsolete
 # we should upgrade to iRods 4.3, Debian Bullseye, etc but this will require at a minimum, changes to our iinit use in HS
