@@ -59,11 +59,11 @@ RUN export C_INCLUDE_PATH=/usr/include/gdal
 RUN export GEOS_CONFIG=/usr/bin/geos-config 
 RUN HDF5_INCDIR=/usr/include/hdf5/serial
 
-RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/2.4.1/gdal-2.4.1.tar.gz \
-    && tar -xzf gdal-2.4.1.tar.gz \
-    && rm gdal-2.4.1.tar.gz
+RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/3.6.3/gdal-3.6.3.tar.gz \
+    && tar -xzf gdal-3.6.3.tar.gz \
+    && rm gdal-3.6.3.tar.gz
 
-WORKDIR /gdal-2.4.1
+WORKDIR /gdal-3.6.3
 RUN ./configure --with-python --with-geos=yes \
     && make \
     && sudo make install \
@@ -80,6 +80,9 @@ RUN pip install -r requirements.txt
 
 # Install pandas late -- incompatibility between pandas and python-dateutil versions
 RUN pip install pandas==2.2.2
+
+# install gdal python bindings
+RUN pip install gdal[numpy]=="$(gdal-config --version).*"
 
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
