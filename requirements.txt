@@ -44,6 +44,7 @@ django-tus@git+https://github.com/CUAHSI/django-tus.git@2aac2e7c0e6bac79a1cb0772
 django-widget-tweaks==1.5.0
 docker-py==1.7.2
 dominate==2.4.0
+drf-haystack==1.9.1
 drf-yasg==1.21.9
 flake8==6.0.0
 flex==6.14.1
