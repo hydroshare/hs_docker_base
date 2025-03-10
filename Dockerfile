@@ -74,6 +74,7 @@ WORKDIR /
 RUN pip install --upgrade pip 
 RUN pip install 'setuptools<58.0.0'
 RUN pip install setuptools-scm==5.0.2
+RUN pip install numpy==1.26.4
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r requirements.txt
 
