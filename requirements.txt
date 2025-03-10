@@ -6,6 +6,10 @@ arrow==0.7.0
 autopep8==1.2.2
 Babel==2.11.0
 bagit==1.5.4
+# intentionally keep bleach at https://github.com/mozilla/bleach/releases/tag/v5.0.1
+# due to issue with mezzanine 6.0.0
+# https://github.com/stephenmcd/mezzanine/issues/2054
+bleach==5.0.1
 boto3==1.37.5
 colorama==0.4.6
 coreapi==2.3.3
