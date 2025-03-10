@@ -1,4 +1,10 @@
+# instead of building from source, we will use the gdal image from osgeo
+# FROM ghcr.io/osgeo/gdal:ubuntu-small-2.4.0 as gdal
+FROM osgeo/gdal:alpine-normal-v2.4.1 as gdal
+
 FROM python:3.9-bullseye
+
+COPY --from=gdal /usr/local/bin/gdal* /usr/local/bin/
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PY_SAX_PARSER=hs_core.xmlparser
@@ -59,16 +65,18 @@ RUN export C_INCLUDE_PATH=/usr/include/gdal
 RUN export GEOS_CONFIG=/usr/bin/geos-config 
 RUN HDF5_INCDIR=/usr/include/hdf5/serial
 
-RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/3.6.3/gdal-3.6.3.tar.gz \
-    && tar -xzf gdal-3.6.3.tar.gz \
-    && rm gdal-3.6.3.tar.gz
+# RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/2.4.1/gdal-2.4.1.tar.gz \
+#     && tar -xzf gdal-2.4.1.tar.gz \
+#     && rm gdal-2.4.1.tar.gz
 
-WORKDIR /gdal-3.6.3
-RUN ./configure --with-python --with-geos=yes \
-    && make \
-    && sudo make install \
-    && sudo ldconfig
-WORKDIR /
+# WORKDIR /gdal-2.4.1
+# RUN ./configure --with-python --with-geos=yes \
+#     && make \
+#     && sudo make install \
+#     && sudo ldconfig
+# WORKDIR /
+
+
 
 # Install pip based packages (due to dependencies some packages need to come first)
 RUN pip install --upgrade pip 
