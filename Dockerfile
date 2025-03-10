@@ -49,25 +49,10 @@ RUN curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup.sh \
 
 RUN npm install -g phantomjs-prebuilt
 
-RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends gdal-bin
-RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends libgdal-dev
+RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends gdal-bin \
+    libgdal-dev \
+    python3-gdal
 
-WORKDIR /
-
-RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal 
-RUN export C_INCLUDE_PATH=/usr/include/gdal 
-RUN export GEOS_CONFIG=/usr/bin/geos-config 
-RUN HDF5_INCDIR=/usr/include/hdf5/serial
-
-RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/3.6.3/gdal-3.6.3.tar.gz \
-    && tar -xzf gdal-3.6.3.tar.gz \
-    && rm gdal-3.6.3.tar.gz
-
-WORKDIR /gdal-3.6.3
-RUN ./configure --with-python --with-geos=yes \
-    && make \
-    && sudo make install \
-    && sudo ldconfig
 WORKDIR /
 
 # Install pip based packages (due to dependencies some packages need to come first)
