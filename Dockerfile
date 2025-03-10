@@ -1,6 +1,6 @@
 # instead of building from source, we will use the gdal image from osgeo
 # FROM ghcr.io/osgeo/gdal:ubuntu-small-2.4.0 as gdal
-FROM osgeo/gdal:alpine-normal-v2.4.1 as gdal
+FROM osgeo/gdal:alpine-normal-3.6.3 as gdal
 
 FROM python:3.9-bullseye
 
