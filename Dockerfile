@@ -57,9 +57,7 @@ WORKDIR /
 RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal 
 RUN export C_INCLUDE_PATH=/usr/include/gdal 
 RUN export GEOS_CONFIG=/usr/bin/geos-config 
-RUN HDF5_INCDIR=/usr/include/hdf5/serial 
-RUN pip install --upgrade pip 
-RUN pip install 'setuptools<58.0.0'
+RUN HDF5_INCDIR=/usr/include/hdf5/serial
 
 RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/2.4.1/gdal-2.4.1.tar.gz \
     && tar -xzf gdal-2.4.1.tar.gz \
@@ -73,11 +71,13 @@ RUN ./configure --with-python --with-geos=yes \
 WORKDIR /
 
 # Install pip based packages (due to dependencies some packages need to come first)
+RUN pip install --upgrade pip 
+RUN pip install 'setuptools<58.0.0'
+RUN pip install setuptools-scm==5.0.2
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r requirements.txt
 
-# Install pandas after other requirements
-# This is because of incompatibility between pandas and python-dateutil versions
+# Install pandas late -- incompatibility between pandas and python-dateutil versions
 RUN pip install pandas==2.2.2
 
 # Install SSH for remote PyCharm debugging
