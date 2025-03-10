@@ -101,7 +101,7 @@ sorl-thumbnail==12.8.0
 spam_patterns@git+https://github.com/CUAHSI/spam_patterns.git@0.0.4
 suds-jurko==0.6
 timeago==1.0.10
-tinycss2==1.4.0
+tinycss2
 virtualenv==15.0.2
 wheel==0.38.4
 xmltodict==0.10.2
