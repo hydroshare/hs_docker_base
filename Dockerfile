@@ -72,7 +72,13 @@ RUN echo 'hydro-service:docker' | chpasswd
 ENV DEBIAN_FRONTEND teletype
 
 # set UTF-8 env locale
-RUN echo UTF-8/en_US.UTF-8 UTF-8 > /etc/local.gen; locale-gen
+RUN apt-get update && apt-get install -y locales \
+    && locale-gen en_US.UTF-8 \
+    && dpkg-reconfigure locales
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
 # Cleanup
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
