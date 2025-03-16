@@ -1,9 +1,9 @@
-FROM python:3.9-buster
+FROM python:3.9-bullseye
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PY_SAX_PARSER=hs_core.xmlparser
 
-RUN printf "deb http://deb.debian.org/debian/ buster main\ndeb http://security.debian.org/debian-security buster/updates main" > /etc/apt/sources.list
+RUN printf "deb http://deb.debian.org/debian/ bullseye main\ndeb http://deb.debian.org/debian/ bullseye-updates main\ndeb http://security.debian.org/debian-security bullseye-security main" > /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
     apt-transport-https \
@@ -24,85 +24,50 @@ RUN curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 COPY docker.list /etc/apt/sources.list.d/
 RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7EA0A9C3F273FCD8
 
-RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+# RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
+RUN apt-get update && apt-get install -y \
+    postgresql-14 \
+    postgresql-client-14
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     apt-utils \
     libfuse2 \
-    libjpeg62-turbo \
-    libjpeg62-turbo-dev \
     binutils \
     libproj-dev \
-    gdal-bin \
     build-essential \
-    libgdal-dev \
-    postgresql-15 \
-    postgresql-client-15 \
     git \
-    rsync \
-    openssh-client \
-    openssh-server \
-    netcdf-bin \
-    supervisor \
-    nodejs
+    netcdf-bin
+
+# install node
+# https://github.com/nodesource/distributions/blob/master/README.md
+RUN curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup.sh \
+    && chmod +x nodesource_setup.sh \
+    && bash nodesource_setup.sh \
+    && apt-get install -y nodejs
+
 RUN npm install -g phantomjs-prebuilt
 
+RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends gdal-bin \
+    libgdal-dev \
+    python3-gdal
+
 WORKDIR /
-
-RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal 
-RUN export C_INCLUDE_PATH=/usr/include/gdal 
-RUN export GEOS_CONFIG=/usr/bin/geos-config 
-RUN HDF5_INCDIR=/usr/include/hdf5/serial 
-RUN pip install --upgrade pip 
-RUN pip install 'setuptools<58.0.0'
-
-RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/2.4.1/gdal-2.4.1.tar.gz \
-    && tar -xzf gdal-2.4.1.tar.gz \
-    && rm gdal-2.4.1.tar.gz
-
-WORKDIR /gdal-2.4.1
-RUN ./configure --with-python --with-geos=yes \
-    && make \
-    && sudo make install \
-    && sudo ldconfig
-WORKDIR /
-
-# TODO: iROds 4.2.x is holding us to Debian Buster which is EOL. It also requires libssl1.0.0 which is obsolete
-# we should upgrade to iRods 4.3, Debian Bullseye, etc but this will require at a minimum, changes to our iinit use in HS
-RUN wget http://snapshot.debian.org/archive/debian/20190501T215844Z/pool/main/g/glibc/multiarch-support_2.28-10_amd64.deb
-RUN sudo dpkg -i multiarch-support*.deb
-RUN wget http://snapshot.debian.org/archive/debian/20170705T160707Z/pool/main/o/openssl/libssl1.0.0_1.0.2l-1%7Ebpo8%2B1_amd64.deb
-RUN sudo dpkg -i libssl1.0.0*.deb
-
-# Install iRODS
-RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key add - \
-    && echo "deb [arch=amd64] https://packages.irods.org/apt/ bionic main" | \
-    sudo tee /etc/apt/sources.list.d/renci-irods.list \
-    && sudo apt-get update && sudo apt-get install -y \
-    apt-transport-https \
-    irods-runtime=4.2.11-1~bionic \
-    irods-icommands=4.2.11-1~bionic
-
-# Removed defusedexpat (as part of upgrade to python 3.9)
-# Added defusedxml
-# https://docs.python.org/3.9/library/xml.html?highlight=xml#the-defusedxml-package
-# https://github.com/python/cpython/issues/82766
 
 # Install pip based packages (due to dependencies some packages need to come first)
+RUN pip install --upgrade pip 
+RUN pip install 'setuptools<58.0.0'
+RUN pip install setuptools-scm==5.0.2
+RUN pip install numpy==1.26.4
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r requirements.txt
 
-# Install pandas after other requirements
-# This is because of incompatibility between pandas and python-dateutil versions
+# Install pandas late -- incompatibility between pandas and python-dateutil versions
 RUN pip install pandas==2.2.2
 
-# Install SSH for remote PyCharm debugging
-RUN mkdir /var/run/sshd
-RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-
-# SSH login fix. Otherwise user is kicked off after login
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+# install gdal python bindings
+RUN pip install gdal[numpy]=="$(gdal-config --version).*"
 
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
