@@ -93,12 +93,12 @@ pyproj==3.4.0
 pysolr==3.9.0
 pytest-cov==4.0.0
 pytest-django==4.5.2
-python-irodsclient==0.8.1
 python-keycloak==3.9.1
 redis==4.4.4
 robot-detection==0.4
 ruamel.yaml==0.17.21
 selenium==3.0.2
+smart_open[s3]==7.1.0
 sorl-thumbnail==12.8.0
 spam_patterns@git+https://github.com/CUAHSI/spam_patterns.git@0.0.4
 suds-jurko==0.6
