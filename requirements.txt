@@ -1,6 +1,6 @@
 # generated using pipdeptree https://github.com/tox-dev/pipdeptree
 # pipdeptree --warn silence | grep -E '^\w+' > requirements.txt
-aiohttp==3.9.4
+aiohttp==3.11.0b0
 anyjson==0.3.3
 arrow==0.7.0
 autopep8==1.2.2
