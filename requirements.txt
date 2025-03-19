@@ -1,6 +1,6 @@
 # generated using pipdeptree https://github.com/tox-dev/pipdeptree
 # pipdeptree --warn silence | grep -E '^\w+' > requirements.txt
-aiohttp==3.9.4
+aiohttp==3.11.0b0
 anyjson==0.3.3
 arrow==0.7.0
 autopep8==1.2.2
@@ -81,7 +81,7 @@ paramiko==3.4.0
 pipdeptree==2.25.0
 # Pillow reverted due to apparent bug with sorl-thumbnail
 # https://sorl-thumbnail.readthedocs.io/en/latest/requirements.html#image-library
-Pillow==9.3.0
+Pillow==10.3.0
 probablepeople==0.5.4
 psycopg==3.1.20
 psycopg2==2.9.5
@@ -106,6 +106,6 @@ timeago==1.0.10
 tinycss2
 tzdata==2022.7
 tzlocal==4.2
-virtualenv==15.0.2
+virtualenv==20.26.6
 wheel==0.38.4
 xmltodict==0.10.2
