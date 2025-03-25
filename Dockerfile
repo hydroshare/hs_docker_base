@@ -12,6 +12,9 @@ RUN apt-get update && apt-get install -y \
     lsb-release \
     sudo
 
+# additionall packages for building gdal
+RUN apt-get update && apt-get install -y g++ sqlite3 libsqlite3-dev libtiff5-dev pkg-config
+
 RUN sudo mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
@@ -50,7 +53,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup.sh \
 RUN npm install -g phantomjs-prebuilt
 
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
-    libgdal26 \
     gdal-bin \
     libgdal-dev \
     python3-gdal
@@ -68,8 +70,32 @@ RUN pip install -r requirements.txt
 # Install pandas late -- incompatibility between pandas and python-dateutil versions
 RUN pip install pandas==2.2.2
 
+# now upgrade setuptools
+RUN pip install --upgrade setuptools
+
+# Set environment variables for GDAL
+ENV CPLUS_INCLUDE_PATH /usr/include/gdal
+ENV C_INCLUDE_PATH=/usr/include/gdal
+
+RUN wget https://download.osgeo.org/proj/proj-9.6.0.tar.gz \
+    && tar xvzf proj-9.6.0.tar.gz \
+    && cd proj-9.6.0 \
+    && ./configure --without-curl \
+    && make && make install
+
+# Download GDAL v3.10.2 Source
+RUN cd /home/user # return to your home folder \
+    && wget download.osgeo.org/gdal/CURRENT/gdal3102.zip \
+    && unzip gdal3102.zip \
+    && cd gdal-3.10.2 \
+    && ./configure \
+    && make clean && sudo make && sudo make install
+
+# Set LD_LIBRARY_PATH so that recompiled GDAL is used
+ENV LD_LIBRARY_PATH /usr/local/lib
+
 # install gdal python bindings
-RUN pip install gdal[numpy]=="$(gdal-config --version).*"
+RUN pip install gdal[numpy]==3.10
 
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
