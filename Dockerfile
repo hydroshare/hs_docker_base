@@ -49,7 +49,9 @@ RUN curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup.sh \
 
 RUN npm install -g phantomjs-prebuilt
 
-RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends gdal-bin \
+RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
+    libgdal26 \
+    gdal-bin \
     libgdal-dev \
     python3-gdal
 
