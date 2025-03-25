@@ -77,9 +77,9 @@ RUN pip install --upgrade setuptools
 ENV CPLUS_INCLUDE_PATH /usr/include/gdal
 ENV C_INCLUDE_PATH=/usr/include/gdal
 
-RUN wget https://download.osgeo.org/proj/proj-9.6.0.tar.gz \
-    && tar xvzf proj-9.6.0.tar.gz \
-    && cd proj-9.6.0 \
+RUN wget https://download.osgeo.org/proj/proj-7.2.0.tar.gz \
+    && tar xvzf proj-7.2.0.tar.gz \
+    && cd proj-7.2.0 \
     && ./configure --without-curl \
     && make && make install
 
