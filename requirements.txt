@@ -62,7 +62,7 @@ gevent==23.9.1
 google-cloud-logging==3.10.0
 google-cloud-pubsub==2.21.2
 google-cloud-storage==2.17.0
-gunicorn==22.0.0
+gunicorn==23.0.0
 hsmodels==1.0.4
 html5lib==1.1
 ipaddress==1.0.22
