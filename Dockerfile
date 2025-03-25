@@ -57,6 +57,9 @@ RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     libgdal-dev \
     python3-gdal
 
+# install cmake
+RUN apt-get update && apt-get install -y cmake
+
 WORKDIR /
 
 # Install pip based packages (due to dependencies some packages need to come first)
@@ -77,19 +80,16 @@ RUN pip install --upgrade setuptools
 ENV CPLUS_INCLUDE_PATH /usr/include/gdal
 ENV C_INCLUDE_PATH=/usr/include/gdal
 
-RUN wget https://download.osgeo.org/proj/proj-7.2.0.tar.gz \
-    && tar xvzf proj-7.2.0.tar.gz \
-    && cd proj-7.2.0 \
-    && ./configure --without-curl \
-    && make && make install
+RUN apt-get update && apt-get install -y proj-bin
 
 # Download GDAL v3.10.2 Source
-RUN cd /home/user # return to your home folder \
-    && wget download.osgeo.org/gdal/CURRENT/gdal3102.zip \
+WORKDIR /
+RUN wget download.osgeo.org/gdal/CURRENT/gdal3102.zip \
     && unzip gdal3102.zip \
     && cd gdal-3.10.2 \
-    && ./configure \
-    && make clean && sudo make && sudo make install
+    && mkdir build \
+    && cd build \
+    && cmake ..
 
 # Set LD_LIBRARY_PATH so that recompiled GDAL is used
 ENV LD_LIBRARY_PATH /usr/local/lib
