@@ -33,8 +33,8 @@ django-ipware==2.1.0
 django-jsonfield==1.4.1
 django-modeltranslation==0.12.2
 django-nose==1.4.5
-django-oauth-toolkit
-djangorestframework==3.14.*
+django-oauth-toolkit==2.1.0
+djangorestframework==3.15.2
 django-robots==6.1
 django-security==0.12.0
 django-storages==1.14.5
