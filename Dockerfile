@@ -38,7 +38,6 @@ RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     apt-utils \
     libfuse2 \
     binutils \
-    libproj-dev \
     build-essential \
     git \
     netcdf-bin
@@ -81,6 +80,15 @@ ENV CPLUS_INCLUDE_PATH /usr/include/gdal
 ENV C_INCLUDE_PATH=/usr/include/gdal
 
 RUN apt-get update && apt-get install -y proj-bin
+
+RUN wget https://download.osgeo.org/proj/proj-7.2.0.tar.gz \
+    && tar xvzf proj-7.2.0.tar.gz \
+    && cd proj-7.2.0 \
+    && mkdir build \
+    && cd build \
+    && cmake .. \
+    && make \
+    && make install
 
 # Download GDAL v3.10.2 Source
 WORKDIR /
