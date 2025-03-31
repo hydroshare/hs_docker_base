@@ -81,7 +81,7 @@ paramiko==3.4.0
 pipdeptree==2.25.0
 # Pillow reverted due to apparent bug with sorl-thumbnail
 # https://sorl-thumbnail.readthedocs.io/en/latest/requirements.html#image-library
-Pillow==10.3.0
+Pillow==9.3.0
 probablepeople==0.5.4
 psycopg==3.1.20
 psycopg2==2.9.5
