@@ -34,6 +34,8 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     apt-utils \
     libfuse2 \
+    libjpeg62-turbo \
+    libjpeg62-turbo-dev \
     binutils \
     libproj-dev \
     build-essential \
