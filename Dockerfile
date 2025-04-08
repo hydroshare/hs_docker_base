@@ -101,10 +101,12 @@ RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     libgdal-dev \
     python3-gdal
 
+WORKDIR /
+
 # Install pip based packages (due to dependencies some packages need to come first)
 RUN pip install --upgrade pip 
 RUN pip install setuptools
-ADD ./requirements.txt /requirements.txt
+ADD ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 # Install pandas late -- incompatibility between pandas and python-dateutil versions
