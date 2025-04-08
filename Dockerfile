@@ -77,7 +77,21 @@ RUN pip install pandas==2.2.2
 # now upgrade setuptools
 RUN pip install --upgrade setuptools
 
-RUN apt-get update && apt-get install -y proj-bin
+RUN wget https://download.osgeo.org/proj/proj-7.2.0.tar.gz \
+    && wget https://download.osgeo.org/proj/proj-7.2.0.tar.gz.md5 \
+    && md5sum -c proj-7.2.0.tar.gz.md5 \
+    && rm proj-7.2.0.tar.gz.md5 \
+    && tar xvzf proj-7.2.0.tar.gz \
+    && cd proj-7.2.0 \
+    && mkdir build \
+    && cd build \
+    && cmake .. \
+    && make \
+    && make install
+
+# set the proj dir
+ENV PROJ_LIB /usr/local/share/proj
+ENV PROJ_DIR /usr/local
 
 ENV CPLUS_INCLUDE_PATH=/usr/include/gdal 
 ENV export C_INCLUDE_PATH=/usr/include/gdal 
