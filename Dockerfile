@@ -55,15 +55,6 @@ RUN npm install -g phantomjs-prebuilt
 
 WORKDIR /
 
-# Install pip based packages (due to dependencies some packages need to come first)
-RUN pip install --upgrade pip 
-RUN pip install setuptools
-ADD ./requirements.txt /requirements.txt
-RUN pip install -r requirements.txt
-
-# Install pandas late -- incompatibility between pandas and python-dateutil versions
-RUN pip install pandas==2.2.2
-
 # install cmake
 RUN apt-get update && apt-get install -y cmake
 
@@ -109,6 +100,16 @@ RUN mkdir build \
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     libgdal-dev \
     python3-gdal
+
+# Install pip based packages (due to dependencies some packages need to come first)
+RUN pip install --upgrade pip 
+RUN pip install setuptools
+ADD ./requirements.txt /requirements.txt
+RUN pip install -r requirements.txt
+
+# Install pandas late -- incompatibility between pandas and python-dateutil versions
+RUN pip install pandas==2.2.2
+
 RUN pip install gdal[numpy]==3.10.3
 
 ENV NOTVISIBLE "in users profile"
