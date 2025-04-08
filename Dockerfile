@@ -77,30 +77,12 @@ RUN pip install pandas==2.2.2
 # now upgrade setuptools
 RUN pip install --upgrade setuptools
 
-# Set environment variables for GDAL
-ENV CPLUS_INCLUDE_PATH /usr/include/gdal
-ENV C_INCLUDE_PATH=/usr/include/gdal
-
 RUN apt-get update && apt-get install -y proj-bin
 
-# Download GDAL v3.10.3 Source
-WORKDIR /
-RUN wget download.osgeo.org/gdal/CURRENT/gdal3103.zip
-
-# check the checksum
-RUN wget download.osgeo.org/gdal/CURRENT/gdal3103.zip.md5
-RUN md5sum -c gdal3103.zip.md5
-# Unzip GDAL Source
-RUN unzip gdal3103.zip
-# Install GDAL
-RUN cd gdal-3.10.3 \
-    && mkdir build \
-    && cd build \
-    && cmake ..
-# RUN cd gdal-3.10.3/build \
-#     && make -j 4 \
-#     && make install \
-#     && ldconfig
+ENV CPLUS_INCLUDE_PATH=/usr/include/gdal 
+ENV export C_INCLUDE_PATH=/usr/include/gdal 
+ENV export GEOS_CONFIG=/usr/bin/geos-config 
+ENV HDF5_INCDIR=/usr/include/hdf5/serial 
 # Set GDAL_DATA environment variable
 ENV GDAL_DATA /usr/local/share/gdal
 # Set PATH so that recompiled GDAL is used
@@ -111,9 +93,22 @@ ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig
 ENV CPLUS_INCLUDE_PATH /usr/local/include/gdal
 # Set C_INCLUDE_PATH so that recompiled GDAL is used
 ENV C_INCLUDE_PATH /usr/local/include/gdal
-
 # Set LD_LIBRARY_PATH so that recompiled GDAL is used
 ENV LD_LIBRARY_PATH /usr/local/lib
+
+RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/3.10.3/gdal-3.10.3.tar.gz \
+    && wget https://ftp.osuosl.org/pub/osgeo/download/gdal/3.10.3/gdal-3.10.3.tar.gz.md5 \
+    && md5sum -c gdal-3.10.3.tar.gz.md5 \
+    && tar -xzf gdal-3.10.3.tar.gz \
+    && rm gdal-3.10.3.tar.gz gdal-3.10.3.tar.gz.md5
+
+WORKDIR /gdal-3.10.3
+RUN mkdir build \
+    && cd build \
+    && cmake .. \
+    && cmake --build . \
+    && cmake --build . --target install \
+    && ldconfig
 
 # install gdal python bindings
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
