@@ -1,4 +1,4 @@
-FROM python:3.9-bullseye
+FROM python:3.12.9-bullseye
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PY_SAX_PARSER=hs_core.xmlparser
