@@ -1,7 +1,7 @@
 FROM python:3.12.9-bullseye
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV PY_SAX_PARSER=hs_core.xmlparser
+ENV PY_SAX_PARSER hs_core.xmlparser
 
 RUN printf "deb http://deb.debian.org/debian/ bullseye main\ndeb http://deb.debian.org/debian/ bullseye-updates main\ndeb http://security.debian.org/debian-security bullseye-security main" > /etc/apt/sources.list
 
