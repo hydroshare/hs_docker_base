@@ -73,6 +73,7 @@ mozilla-django-oidc==4.0.0
 nameparser==0.5.7
 netCDF4==1.7.2
 nose-timer==0.7.6
+numpy==2.2.4
 OWSLib==0.28.1
 paramiko==3.4.0
 pipdeptree==2.25.0

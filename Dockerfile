@@ -53,29 +53,19 @@ RUN curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup.sh \
 
 RUN npm install -g phantomjs-prebuilt
 
-# RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
-#     gdal-bin \
-#     libgdal-dev \
-#     python3-gdal
-
-# install cmake
-RUN apt-get update && apt-get install -y cmake
-
 WORKDIR /
 
 # Install pip based packages (due to dependencies some packages need to come first)
 RUN pip install --upgrade pip 
-RUN pip install 'setuptools<58.0.0'
-RUN pip install setuptools-scm==5.0.2
-RUN pip install numpy==1.26.4
-COPY ./requirements.txt /requirements.txt
+RUN pip install setuptools
+ADD ./requirements.txt /requirements.txt
 RUN pip install -r requirements.txt
 
 # Install pandas late -- incompatibility between pandas and python-dateutil versions
 RUN pip install pandas==2.2.2
 
-# now upgrade setuptools
-RUN pip install --upgrade setuptools
+# install cmake
+RUN apt-get update && apt-get install -y cmake
 
 RUN wget https://download.osgeo.org/proj/proj-7.2.0.tar.gz \
     && wget https://download.osgeo.org/proj/proj-7.2.0.tar.gz.md5 \
