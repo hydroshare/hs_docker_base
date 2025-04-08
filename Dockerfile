@@ -72,12 +72,15 @@ RUN wget https://download.osgeo.org/proj/proj-7.2.0.tar.gz \
     && md5sum -c proj-7.2.0.tar.gz.md5 \
     && rm proj-7.2.0.tar.gz.md5 \
     && tar xvzf proj-7.2.0.tar.gz \
+    && rm proj-7.2.0.tar.gz \
     && cd proj-7.2.0 \
     && mkdir build \
     && cd build \
     && cmake .. \
     && make \
-    && make install
+    && make install \
+    && cd / \
+    && rm -rf proj-7.2.0
 
 # set the proj dir
 ENV PROJ_LIB /usr/local/share/proj
@@ -98,7 +101,9 @@ RUN mkdir build \
     && cmake .. \
     && cmake --build . \
     && cmake --build . --target install \
-    && ldconfig
+    && ldconfig \
+    && cd / \
+    && rm -rf /gdal-3.10.3
 
 # install gdal python bindings
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
