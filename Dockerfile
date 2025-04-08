@@ -82,23 +82,9 @@ RUN wget https://download.osgeo.org/proj/proj-7.2.0.tar.gz \
 # set the proj dir
 ENV PROJ_LIB /usr/local/share/proj
 ENV PROJ_DIR /usr/local
-
-ENV CPLUS_INCLUDE_PATH=/usr/include/gdal 
-ENV export C_INCLUDE_PATH=/usr/include/gdal 
-ENV export GEOS_CONFIG=/usr/bin/geos-config 
-ENV HDF5_INCDIR=/usr/include/hdf5/serial 
-# Set GDAL_DATA environment variable
-ENV GDAL_DATA /usr/local/share/gdal
-# Set PATH so that recompiled GDAL is used
-ENV PATH /usr/local/bin:$PATH
-# Set PKG_CONFIG_PATH so that recompiled GDAL is used
-ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig
-# Set CPLUS_INCLUDE_PATH so that recompiled GDAL is used
 ENV CPLUS_INCLUDE_PATH /usr/local/include/gdal
-# Set C_INCLUDE_PATH so that recompiled GDAL is used
 ENV C_INCLUDE_PATH /usr/local/include/gdal
-# Set LD_LIBRARY_PATH so that recompiled GDAL is used
-ENV LD_LIBRARY_PATH /usr/local/lib
+ENV HDF5_INCDIR=/usr/include/hdf5/serial 
 
 RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/3.10.3/gdal-3.10.3.tar.gz \
     && wget https://ftp.osuosl.org/pub/osgeo/download/gdal/3.10.3/gdal-3.10.3.tar.gz.md5 \
