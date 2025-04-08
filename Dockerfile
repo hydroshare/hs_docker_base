@@ -1,6 +1,6 @@
 # instead of building from source, we will use the gdal image from osgeo
 # FROM ghcr.io/osgeo/gdal:ubuntu-small-2.4.0 as gdal
-FROM osgeo/gdal:alpine-normal-3.6.3 as gdal
+FROM osgeo/gdal:ubuntu-full-3.6.3 as gdal
 
 FROM python:3.11-bullseye
 
@@ -72,7 +72,6 @@ RUN HDF5_INCDIR=/usr/include/hdf5/serial
 RUN pip install --upgrade pip 
 RUN pip install 'setuptools<58.0.0'
 RUN pip install setuptools-scm==5.0.2
-RUN pip install numpy==1.26.4
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r requirements.txt
 
@@ -80,7 +79,7 @@ RUN pip install -r requirements.txt
 RUN pip install pandas==2.2.2
 
 # install gdal python bindings
-RUN pip install gdal[numpy]=="$(gdal-config --version).*"
+RUN pip install gdal[numpy]==3.6.3
 
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
