@@ -53,10 +53,10 @@ RUN curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup.sh \
 
 RUN npm install -g phantomjs-prebuilt
 
-RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
-    gdal-bin \
-    libgdal-dev \
-    python3-gdal
+# RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
+#     gdal-bin \
+#     libgdal-dev \
+#     python3-gdal
 
 # install cmake
 RUN apt-get update && apt-get install -y cmake
@@ -83,29 +83,43 @@ ENV C_INCLUDE_PATH=/usr/include/gdal
 
 RUN apt-get update && apt-get install -y proj-bin
 
-RUN wget https://download.osgeo.org/proj/proj-7.2.0.tar.gz \
-    && tar xvzf proj-7.2.0.tar.gz \
-    && cd proj-7.2.0 \
-    && mkdir build \
-    && cd build \
-    && cmake .. \
-    && make \
-    && make install
-
-# Download GDAL v3.10.2 Source
+# Download GDAL v3.10.3 Source
 WORKDIR /
-RUN wget download.osgeo.org/gdal/CURRENT/gdal3102.zip \
-    && unzip gdal3102.zip \
-    && cd gdal-3.10.2 \
+RUN wget download.osgeo.org/gdal/CURRENT/gdal3103.zip
+
+# check the checksum
+RUN wget download.osgeo.org/gdal/CURRENT/gdal3103.zip.md5
+RUN md5sum -c gdal3103.zip.md5
+# Unzip GDAL Source
+RUN unzip gdal3103.zip
+# Install GDAL
+RUN cd gdal-3.10.3 \
     && mkdir build \
     && cd build \
     && cmake ..
+# RUN cd gdal-3.10.3/build \
+#     && make -j 4 \
+#     && make install \
+#     && ldconfig
+# Set GDAL_DATA environment variable
+ENV GDAL_DATA /usr/local/share/gdal
+# Set PATH so that recompiled GDAL is used
+ENV PATH /usr/local/bin:$PATH
+# Set PKG_CONFIG_PATH so that recompiled GDAL is used
+ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig
+# Set CPLUS_INCLUDE_PATH so that recompiled GDAL is used
+ENV CPLUS_INCLUDE_PATH /usr/local/include/gdal
+# Set C_INCLUDE_PATH so that recompiled GDAL is used
+ENV C_INCLUDE_PATH /usr/local/include/gdal
 
 # Set LD_LIBRARY_PATH so that recompiled GDAL is used
 ENV LD_LIBRARY_PATH /usr/local/lib
 
 # install gdal python bindings
-RUN pip install gdal[numpy]==3.10
+RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
+    libgdal-dev \
+    python3-gdal
+RUN pip install gdal[numpy]==3.10.3
 
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
