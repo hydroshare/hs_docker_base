@@ -17,7 +17,7 @@ debugpy==1.6.4
 deepdiff==1.7.0
 defusedxml==0.7.1
 Deprecated==1.2.13
-django==4.2.*
+django>=4.2.8,<4.3
 django-autocomplete-light==3.11.0
 django-braces==1.15.0
 django-compressor==4.1
@@ -100,6 +100,7 @@ sorl-thumbnail==12.8.0
 spam_patterns@git+https://github.com/CUAHSI/spam_patterns.git@0.0.4
 timeago==1.0.10
 tinycss2==1.1.1
+tzlocal>=2.0,<3.0
 virtualenv==15.0.2
 wheel==0.38.4
 xmltodict==0.10.2
