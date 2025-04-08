@@ -1,4 +1,10 @@
+# instead of building from source, we will use the gdal image from osgeo
+# FROM ghcr.io/osgeo/gdal:ubuntu-small-2.4.0 as gdal
+FROM osgeo/gdal:alpine-normal-v2.4.1 as gdal
+
 FROM python:3.12.9-bullseye
+
+COPY --from=gdal /usr/local/bin/gdal* /usr/local/bin/
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PY_SAX_PARSER=hs_core.xmlparser
@@ -56,6 +62,11 @@ RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends g
     python3-gdal
 
 WORKDIR /
+
+RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal 
+RUN export C_INCLUDE_PATH=/usr/include/gdal 
+RUN export GEOS_CONFIG=/usr/bin/geos-config 
+RUN HDF5_INCDIR=/usr/include/hdf5/serial
 
 # Install pip based packages (due to dependencies some packages need to come first)
 RUN pip install --upgrade pip 
