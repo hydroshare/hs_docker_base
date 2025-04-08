@@ -2,7 +2,7 @@
 # FROM ghcr.io/osgeo/gdal:ubuntu-small-2.4.0 as gdal
 FROM osgeo/gdal:alpine-normal-3.6.3 as gdal
 
-FROM python:3.12.9-bullseye
+FROM python:3.11-bullseye
 
 COPY --from=gdal /usr/local/bin/gdal* /usr/local/bin/
 
