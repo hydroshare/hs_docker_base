@@ -1,4 +1,10 @@
-FROM python:3.9-bullseye
+# instead of building from source, we will use the gdal image from osgeo
+# FROM ghcr.io/osgeo/gdal:ubuntu-small-2.4.0 as gdal
+FROM osgeo/gdal:alpine-normal-3.6.3 as gdal
+
+FROM python:3.12.9-bullseye
+
+COPY --from=gdal /usr/local/bin/gdal* /usr/local/bin/
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PY_SAX_PARSER=hs_core.xmlparser
@@ -59,14 +65,12 @@ WORKDIR /
 
 # Install pip based packages (due to dependencies some packages need to come first)
 RUN pip install --upgrade pip 
-RUN pip install 'setuptools<58.0.0'
-RUN pip install setuptools-scm==5.0.2
-RUN pip install numpy==1.26.4
+RUN pip install setuptools
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r requirements.txt
 
 # Install pandas late -- incompatibility between pandas and python-dateutil versions
-RUN pip install pandas==2.2.2
+RUN pip install pandas
 
 # install gdal python bindings
 RUN pip install gdal[numpy]=="$(gdal-config --version).*"
