@@ -105,7 +105,8 @@ WORKDIR /
 
 # Install pip based packages (due to dependencies some packages need to come first)
 RUN pip install --upgrade pip 
-RUN pip install --upgrade setuptools
+RUN pip install 'setuptools<58.0.0'
+RUN pip install setuptools-scm==5.0.2
 ADD ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
@@ -113,6 +114,8 @@ RUN pip install -r requirements.txt
 RUN pip install pandas==2.2.2
 
 RUN pip install gdal[numpy]==3.10.3
+
+RUN pip install --upgrade setuptools
 RUN pip install numpy==1.26.4
 
 ENV NOTVISIBLE "in users profile"
