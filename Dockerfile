@@ -1,7 +1,7 @@
-FROM python:3.9-bullseye
+FROM python:3.12-bullseye
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV PY_SAX_PARSER=hs_core.xmlparser
+ENV PY_SAX_PARSER hs_core.xmlparser
 
 RUN printf "deb http://deb.debian.org/debian/ bullseye main\ndeb http://deb.debian.org/debian/ bullseye-updates main\ndeb http://security.debian.org/debian-security bullseye-security main" > /etc/apt/sources.list
 
@@ -11,6 +11,9 @@ RUN apt-get update && apt-get install -y \
     curl \
     lsb-release \
     sudo
+
+# additionall packages for building gdal
+RUN apt-get update && apt-get install -y g++ sqlite3 libsqlite3-dev libtiff5-dev pkg-config
 
 RUN sudo mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -37,7 +40,6 @@ RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     libjpeg62-turbo \
     libjpeg62-turbo-dev \
     binutils \
-    libproj-dev \
     build-essential \
     git \
     netcdf-bin
@@ -51,7 +53,51 @@ RUN curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup.sh \
 
 RUN npm install -g phantomjs-prebuilt
 
-RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends gdal-bin \
+WORKDIR /
+
+# install cmake
+RUN apt-get update && apt-get install -y cmake
+
+RUN wget https://download.osgeo.org/proj/proj-7.2.0.tar.gz \
+    && wget https://download.osgeo.org/proj/proj-7.2.0.tar.gz.md5 \
+    && md5sum -c proj-7.2.0.tar.gz.md5 \
+    && rm proj-7.2.0.tar.gz.md5 \
+    && tar xvzf proj-7.2.0.tar.gz \
+    && rm proj-7.2.0.tar.gz \
+    && cd proj-7.2.0 \
+    && mkdir build \
+    && cd build \
+    && cmake .. \
+    && make \
+    && make install \
+    && cd / \
+    && rm -rf proj-7.2.0
+
+# set the proj dir
+ENV PROJ_LIB /usr/local/share/proj
+ENV PROJ_DIR /usr/local
+ENV CPLUS_INCLUDE_PATH /usr/local/include/gdal
+ENV C_INCLUDE_PATH /usr/local/include/gdal
+ENV HDF5_INCDIR=/usr/include/hdf5/serial 
+
+RUN wget https://ftp.osuosl.org/pub/osgeo/download/gdal/3.10.3/gdal-3.10.3.tar.gz \
+    && wget https://ftp.osuosl.org/pub/osgeo/download/gdal/3.10.3/gdal-3.10.3.tar.gz.md5 \
+    && md5sum -c gdal-3.10.3.tar.gz.md5 \
+    && tar -xzf gdal-3.10.3.tar.gz \
+    && rm gdal-3.10.3.tar.gz gdal-3.10.3.tar.gz.md5
+
+WORKDIR /gdal-3.10.3
+RUN mkdir build \
+    && cd build \
+    && cmake .. \
+    && cmake --build . \
+    && cmake --build . --target install \
+    && ldconfig \
+    && cd / \
+    && rm -rf /gdal-3.10.3
+
+# install gdal python bindings
+RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     libgdal-dev \
     python3-gdal
 
@@ -61,15 +107,16 @@ WORKDIR /
 RUN pip install --upgrade pip 
 RUN pip install 'setuptools<58.0.0'
 RUN pip install setuptools-scm==5.0.2
-RUN pip install numpy==1.26.4
-COPY ./requirements.txt /requirements.txt
+ADD ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 # Install pandas late -- incompatibility between pandas and python-dateutil versions
 RUN pip install pandas==2.2.2
 
-# install gdal python bindings
-RUN pip install gdal[numpy]=="$(gdal-config --version).*"
+RUN pip install gdal[numpy]==3.10.3
+
+RUN pip install --upgrade setuptools
+RUN pip install numpy==1.26.4
 
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
