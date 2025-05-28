@@ -1,6 +1,6 @@
 # generated using pipdeptree https://github.com/tox-dev/pipdeptree
 # pipdeptree --warn silence | grep -E '^\w+' > requirements.txt
-aiohttp==3.9.4
+aiohttp==3.11.0b0
 arrow==1.3.0
 autopep8==1.2.2
 Babel==2.11.0
@@ -96,6 +96,6 @@ tblib==3.1.0
 timeago==1.0.10
 tinycss2==1.1.1
 tzlocal>=2.0,<3.0
-virtualenv==15.0.2
+virtualenv==20.26.6
 wheel==0.38.4
 xmltodict==0.10.2
