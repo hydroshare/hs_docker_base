@@ -12,7 +12,7 @@ colorama==0.4.6
 coreapi==2.3.3
 crispy-bootstrap3==2024.1
 debugpy==1.6.4
-deepdiff==8.4.2
+deepdiff==8.6.1
 defusedxml==0.7.1
 Deprecated==1.2.13
 django>=4.2.8,<4.3
