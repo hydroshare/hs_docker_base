@@ -1,9 +1,9 @@
-FROM python:3.12-bullseye
+FROM python:3.12-bookworm
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PY_SAX_PARSER hs_core.xmlparser
 
-RUN printf "deb http://deb.debian.org/debian/ bullseye main\ndeb http://deb.debian.org/debian/ bullseye-updates main\ndeb http://security.debian.org/debian-security bullseye-security main" > /etc/apt/sources.list
+RUN printf "deb http://deb.debian.org/debian/ bookworm main\ndeb http://deb.debian.org/debian/ bookworm-updates main\ndeb http://security.debian.org/debian-security bookworm-security main" > /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
     apt-transport-https \
@@ -27,7 +27,7 @@ RUN curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 COPY docker.list /etc/apt/sources.list.d/
 RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7EA0A9C3F273FCD8
 
-RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 # RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
